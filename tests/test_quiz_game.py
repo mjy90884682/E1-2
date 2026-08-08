@@ -5,7 +5,7 @@ from pathlib import Path
 
 from game import QuizGame
 from models import GameState, Quiz, QuizSession, ScoreRecord
-from repository import InvalidStateError, JsonGameStateRepository, StateSaveError
+from storage import InvalidStateError, StateSaveError, load_state, preserve_invalid_file, save_state
 
 
 class QuizTest(unittest.TestCase):
@@ -62,43 +62,30 @@ class QuizGameTest(unittest.TestCase):
         self.assertEqual(result, ScoreRecord(1, 1))
         self.assertEqual(game.export_state().best_score, result)
 
-    def test_does_not_export_default_quizzes_as_user_state(self) -> None:
-        default_quiz = Quiz("기본 문제", ("A", "B", "C", "D"), 1)
-        added_quiz = Quiz("추가 문제", ("A", "B", "C", "D"), 2)
-        game = QuizGame(GameState(), [default_quiz])
-
-        game.add_quiz(added_quiz)
-
-        self.assertEqual(game.list_quizzes(), (default_quiz, added_quiz))
-        self.assertEqual(game.export_state().quizzes, [added_quiz])
-
-
-class JsonRepositoryTest(unittest.TestCase):
+class JsonStorageTest(unittest.TestCase):
     def test_reports_file_system_error_while_saving(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "missing" / "state.json"
-            repository = JsonGameStateRepository(path)
 
             with self.assertRaises(StateSaveError):
-                repository.save(GameState())
+                save_state(path, GameState())
 
     def test_returns_none_when_state_file_is_missing(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
 
-            self.assertIsNone(JsonGameStateRepository(path).load())
+            self.assertIsNone(load_state(path))
 
     def test_round_trip(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
-            repository = JsonGameStateRepository(path)
             expected = GameState(
                 [Quiz("문제", ("A", "B", "C", "D"), 3)],
                 ScoreRecord(1, 1),
             )
 
-            repository.save(expected)
-            actual = repository.load()
+            save_state(path, expected)
+            actual = load_state(path)
 
             self.assertEqual(actual, expected)
             data = json.loads(path.read_text(encoding="utf-8"))
@@ -110,7 +97,7 @@ class JsonRepositoryTest(unittest.TestCase):
             path.write_text("not json", encoding="utf-8")
 
             with self.assertRaises(InvalidStateError):
-                JsonGameStateRepository(path).load()
+                load_state(path)
 
     def test_reports_invalid_field_types(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -132,16 +119,14 @@ class JsonRepositoryTest(unittest.TestCase):
             )
 
             with self.assertRaises(InvalidStateError):
-                JsonGameStateRepository(path).load()
+                load_state(path)
 
     def test_preserves_invalid_file_without_overwriting_existing_backup(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
             path.write_text("broken", encoding="utf-8")
             path.with_suffix(".json.broken").write_text("older", encoding="utf-8")
-            repository = JsonGameStateRepository(path)
-
-            backup_path = repository.preserve_invalid_file()
+            backup_path = preserve_invalid_file(path)
 
             self.assertEqual(backup_path.name, "state.json.broken.1")
             self.assertEqual(backup_path.read_text(encoding="utf-8"), "broken")

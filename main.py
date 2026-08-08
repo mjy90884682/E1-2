@@ -2,30 +2,30 @@ from pathlib import Path
 
 from console_ui import ConsoleUI
 from game import QuizGame
-from models import GameState
-from repository import (
-    GameStateRepository,
+from storage import (
     InvalidStateError,
-    JsonGameStateRepository,
     StateAccessError,
     StateSaveError,
+    load_state,
+    preserve_invalid_file,
+    save_state as write_state,
 )
 
 
 def save_state(
     game: QuizGame,
-    repository: GameStateRepository,
+    state_path: Path,
     ui: ConsoleUI,
 ) -> bool:
     try:
-        repository.save(game.export_state())
+        write_state(state_path, game.export_state())
     except StateSaveError as error:
         ui.show_message(f"{error} 변경 내용은 현재 실행 중에만 유지됩니다.")
         return False
     return True
 
 
-def play_quiz(game: QuizGame, ui: ConsoleUI, repository: GameStateRepository) -> None:
+def play_quiz(game: QuizGame, ui: ConsoleUI, state_path: Path) -> None:
     session = game.start_quiz()
     if session is None:
         ui.show_message("등록된 퀴즈가 없습니다.")
@@ -40,24 +40,24 @@ def play_quiz(game: QuizGame, ui: ConsoleUI, repository: GameStateRepository) ->
 
     result, is_new_best = game.complete_quiz(session)
     if is_new_best:
-        save_state(game, repository, ui)
+        save_state(game, state_path, ui)
     ui.show_result(result, is_new_best)
 
 
 def run_menu(
     game: QuizGame,
     ui: ConsoleUI,
-    repository: GameStateRepository,
+    state_path: Path,
 ) -> None:
     while True:
         ui.show_menu()
         choice = ui.ask_menu_choice()
 
         if choice == 1:
-            play_quiz(game, ui, repository)
+            play_quiz(game, ui, state_path)
         elif choice == 2:
             game.add_quiz(ui.ask_new_quiz())
-            if save_state(game, repository, ui):
+            if save_state(game, state_path, ui):
                 ui.show_message("퀴즈가 저장되었습니다.")
         elif choice == 3:
             ui.show_quizzes(game.list_quizzes())
@@ -70,14 +70,14 @@ def run_menu(
 def main() -> None:
     ui = ConsoleUI()
     project_root = Path(__file__).parent
-    repository = JsonGameStateRepository(project_root / "state.json")
-    default_repository = JsonGameStateRepository(project_root / "data" / "default_quizzes.json")
+    state_path = project_root / "state.json"
+    initial_state_path = project_root / "data" / "initial_state.json"
     try:
-        state = repository.load()
+        state = load_state(state_path)
     except InvalidStateError as error:
         ui.show_message(str(error))
         try:
-            backup_path = repository.preserve_invalid_file()
+            backup_path = preserve_invalid_file(state_path)
         except StateAccessError as backup_error:
             ui.show_message(str(backup_error))
             return
@@ -88,20 +88,18 @@ def main() -> None:
         return
 
     if state is None:
-        state = GameState()
+        try:
+            state = load_state(initial_state_path)
+        except (InvalidStateError, StateAccessError) as error:
+            ui.show_message(f"초기 데이터를 불러올 수 없습니다: {error}")
+            return
+        if state is None:
+            ui.show_message("초기 데이터 파일이 없습니다.")
+            return
 
+    game = QuizGame(state)
     try:
-        default_state = default_repository.load()
-    except (InvalidStateError, StateAccessError) as error:
-        ui.show_message(f"기본 데이터를 불러올 수 없습니다: {error}")
-        return
-    if default_state is None:
-        ui.show_message("기본 데이터 파일이 없습니다.")
-        return
-
-    game = QuizGame(state, default_state.quizzes)
-    try:
-        run_menu(game, ui, repository)
+        run_menu(game, ui, state_path)
     except (KeyboardInterrupt, EOFError):
         ui.show_message("\n입력이 중단되어 종료합니다.")
 

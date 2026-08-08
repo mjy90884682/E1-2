@@ -31,6 +31,24 @@ class Quiz:
     def check_answer(self, choice: int) -> bool:
         return choice == self.answer
 
+    def to_data(self) -> dict[str, object]:
+        return {
+            "question": self.question,
+            "choices": list(self.choices),
+            "answer": self.answer,
+        }
+
+    @classmethod
+    def from_data(cls, data: object) -> Quiz:
+        if not isinstance(data, dict):
+            raise TypeError("퀴즈는 객체여야 합니다.")
+        question = data["question"]
+        choices = data["choices"]
+        answer = data["answer"]
+        if not isinstance(choices, list):
+            raise TypeError("선택지는 배열이어야 합니다.")
+        return cls(question=question, choices=tuple(choices), answer=answer)
+
 
 @dataclass(frozen=True)
 class ScoreRecord:
@@ -60,11 +78,36 @@ class ScoreRecord:
             return rate_comparison > 0
         return self.correct > other.correct
 
+    def to_data(self) -> dict[str, int]:
+        return {"correct": self.correct, "total": self.total}
+
+    @classmethod
+    def from_data(cls, data: object) -> ScoreRecord:
+        if not isinstance(data, dict):
+            raise TypeError("점수는 객체여야 합니다.")
+        return cls(correct=data["correct"], total=data["total"])
+
 
 @dataclass
 class GameState:
     quizzes: list[Quiz] = field(default_factory=list)
     best_score: ScoreRecord | None = None
+
+    def to_data(self) -> dict[str, object]:
+        return {
+            "quizzes": [quiz.to_data() for quiz in self.quizzes],
+            "best_score": None if self.best_score is None else self.best_score.to_data(),
+        }
+
+    @classmethod
+    def from_data(cls, data: object) -> GameState:
+        if not isinstance(data, dict) or not isinstance(data.get("quizzes"), list):
+            raise TypeError("게임 상태는 quizzes 배열을 포함한 객체여야 합니다.")
+        score_data = data.get("best_score")
+        return cls(
+            quizzes=[Quiz.from_data(item) for item in data["quizzes"]],
+            best_score=None if score_data is None else ScoreRecord.from_data(score_data),
+        )
 
 
 class QuizSession:
