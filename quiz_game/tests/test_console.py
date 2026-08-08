@@ -3,9 +3,22 @@ import unittest
 from unittest.mock import patch
 
 from quiz_game.console import ConsoleUI
+from quiz_game.models import Quiz
 
 
 class ConsoleInputTest(unittest.TestCase):
+    def test_displays_question_progress(self) -> None:
+        quiz = Quiz("문제", ("A", "B", "C", "D"), 1)
+        output = io.StringIO()
+        with (
+            patch("builtins.input", return_value="1"),
+            patch("sys.stdout", output),
+        ):
+            ConsoleUI().ask_answer(quiz, 2, 5)
+
+        self.assertIn("진행: 2/5", output.getvalue())
+        self.assertIn("문제: 문제", output.getvalue())
+
     def test_retries_empty_invalid_and_out_of_range_numbers(self) -> None:
         output = io.StringIO()
         with (

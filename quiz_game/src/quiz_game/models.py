@@ -146,6 +146,17 @@ class QuizSession:
         return len(self._quizzes)
 
     @property
+    def answered_count(self) -> int:
+        return len(self._answers)
+
+    @property
+    def correct_count(self) -> int:
+        return sum(
+            quiz.check_answer(answer)
+            for quiz, answer in zip(self._quizzes, self._answers)
+        )
+
+    @property
     def is_finished(self) -> bool:
         return len(self._answers) == len(self._quizzes)
 
@@ -162,8 +173,4 @@ class QuizSession:
     def result(self) -> ScoreRecord:
         if not self.is_finished:
             raise RuntimeError("아직 퀴즈가 끝나지 않았습니다.")
-        correct = sum(
-            quiz.check_answer(answer)
-            for quiz, answer in zip(self._quizzes, self._answers)
-        )
-        return ScoreRecord(correct=correct, total=self.total)
+        return ScoreRecord(correct=self.correct_count, total=self.total)

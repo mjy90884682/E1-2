@@ -38,6 +38,7 @@ def play_quiz(game: QuizGame, ui: ConsoleUI, state_path: Path) -> None:
         assert quiz is not None
         choice = ui.ask_answer(quiz, session.current_number, session.total)
         ui.show_message("정답입니다!" if session.submit_answer(choice) else "오답입니다.")
+        ui.show_live_score(session.correct_count, session.answered_count, session.total)
 
     result, is_new_best = game.complete_quiz(session)
     if is_new_best:

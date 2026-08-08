@@ -16,7 +16,8 @@ class ConsoleUI:
         return self._ask_number("선택: ", 1, 5)
 
     def ask_answer(self, quiz: Quiz, number: int, total: int) -> int:
-        print(f"\n[{number}/{total}] {quiz.question}")
+        print(f"\n진행: {number}/{total}")
+        print(f"문제: {quiz.question}")
         for index, choice in enumerate(quiz.choices, start=1):
             print(f"  {index}. {choice}")
         return self._ask_number("정답: ", 1, len(quiz.choices))
@@ -42,6 +43,9 @@ class ConsoleUI:
         )
         if is_new_best:
             print("새로운 최고 점수입니다!")
+
+    def show_live_score(self, correct: int, answered: int, total: int) -> None:
+        print(f"현재 점수: {correct}/{answered} | 진행: {answered}/{total}")
 
     def show_best_score(self, score: ScoreRecord | None) -> None:
         if score is None:
