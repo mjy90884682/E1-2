@@ -1,3 +1,5 @@
+"""GameState와 UTF-8 JSON 파일 사이의 입출력을 담당한다."""
+
 import json
 from pathlib import Path
 
@@ -37,6 +39,7 @@ def load_state(path: Path) -> GameState | None:
 def save_state(path: Path, state: GameState) -> None:
     temporary_path = path.with_suffix(path.suffix + ".tmp")
     try:
+        # 원본을 바로 쓰지 않고 완성된 임시 파일을 교체해 중간 실패에 대비한다.
         with temporary_path.open("w", encoding="utf-8") as file:
             json.dump(state.to_data(), file, ensure_ascii=False, indent=2)
             file.write("\n")
@@ -46,6 +49,7 @@ def save_state(path: Path, state: GameState) -> None:
 
 
 def preserve_invalid_file(path: Path) -> Path:
+    # 이전 백업도 남기기 위해 사용하지 않은 번호를 찾는다.
     backup_path = path.with_suffix(path.suffix + ".broken")
     sequence = 1
     while backup_path.exists():

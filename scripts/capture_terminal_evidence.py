@@ -55,6 +55,7 @@ def run_text(*command: str) -> str:
 def capture_quiz_session(destination: Path) -> None:
     with tempfile.TemporaryDirectory(prefix="quiz-evidence-") as directory:
         working_directory = Path(directory)
+        # 실제 state.json을 건드리지 않도록 패키지를 임시 디렉터리에 복사한다.
         shutil.copytree(
             PROJECT_ROOT / "quiz_game" / "src" / "quiz_game",
             working_directory / "quiz_game",
@@ -107,6 +108,7 @@ def capture_quiz_session(destination: Path) -> None:
                     pending_output += decoded
                     event = [round(time.monotonic() - started_at, 6), "o", decoded]
                     output.write(json.dumps(event, ensure_ascii=False) + "\n")
+                    # 프롬프트를 확인한 뒤 답해 실제 사용자 입력 순서를 재현한다.
                     if expected_prompt and expected_prompt in pending_output:
                         os.write(master_fd, f"{response}\n".encode("utf-8"))
                         pending_output = ""

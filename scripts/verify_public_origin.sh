@@ -33,6 +33,7 @@ docker run --rm \
     "$GIT_CLIENT_IMAGE" \
     -eu -c '
         mkdir -p /tmp/empty-home
+        # env -i 뒤에 명시한 값만 Git에 전달되므로 알려지지 않은 인증 변수도 차단된다.
         env -i \
             HOME=/tmp/empty-home \
             PATH="$PATH" \
