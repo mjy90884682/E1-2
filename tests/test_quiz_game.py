@@ -5,7 +5,7 @@ from pathlib import Path
 
 from game import QuizGame
 from models import GameState, Quiz, QuizSession, ScoreRecord
-from repository import InvalidStateError, JsonGameStateRepository
+from repository import InvalidStateError, JsonGameStateRepository, StateSaveError
 
 
 class QuizTest(unittest.TestCase):
@@ -56,6 +56,14 @@ class QuizGameTest(unittest.TestCase):
 
 
 class JsonRepositoryTest(unittest.TestCase):
+    def test_reports_file_system_error_while_saving(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "missing" / "state.json"
+            repository = JsonGameStateRepository(path)
+
+            with self.assertRaises(StateSaveError):
+                repository.save(GameState())
+
     def test_returns_none_when_state_file_is_missing(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
