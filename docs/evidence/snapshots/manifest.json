@@ -1,0 +1,15 @@
+{
+  "revision": "fdd198b6ab20f22ba97015abb94d70d0ca9178d2",
+  "generator": "scripts/capture_terminal_evidence.py",
+  "files": {
+    "docs/evidence/snapshots/environment.txt": {
+      "sha256": "ae070bdd2d31867dd10ad8cfd3468a5e0b306de6f91dc910ab7842537e641a05"
+    },
+    "docs/evidence/snapshots/git-graph.txt": {
+      "sha256": "b042f777017a1f721cba99abb8cf3db7a852966ec70e21bd5e9cb37b6428f41e"
+    },
+    "docs/evidence/snapshots/quiz-session.cast": {
+      "sha256": "1e9d97ae5124a389467cb2ac09d495fa426aa8a8c4eaeb97388aedbd7c4dcfd0"
+    }
+  }
+}

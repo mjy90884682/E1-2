@@ -1,0 +1,8 @@
+$ python3 --version
+Python 3.14.4
+
+$ git --version
+git version 2.53.0
+
+$ uname -a
+Linux remote-main-4 7.0.0-22-generic #22-Ubuntu SMP PREEMPT_DYNAMIC Mon May 25 15:54:34 UTC 2026 x86_64 GNU/Linux
