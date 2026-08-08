@@ -7,8 +7,12 @@ from typing import Any, Protocol
 from models import GameState, Quiz, ScoreRecord, default_state
 
 
-class StateLoadError(Exception):
-    """저장 데이터를 유효한 게임 상태로 변환할 수 없을 때 발생한다."""
+class InvalidStateError(Exception):
+    """저장 데이터의 형식이나 내용이 올바르지 않을 때 발생한다."""
+
+
+class StateAccessError(Exception):
+    """파일 시스템 문제로 저장 데이터에 접근하지 못할 때 발생한다."""
 
 
 class GameStateRepository(Protocol):
@@ -28,9 +32,15 @@ class JsonGameStateRepository:
         try:
             with self._path.open(encoding="utf-8") as file:
                 data = json.load(file)
+        except OSError as error:
+            raise StateAccessError("저장 파일을 읽을 수 없습니다.") from error
+        except json.JSONDecodeError as error:
+            raise InvalidStateError("저장 파일의 JSON 형식이 올바르지 않습니다.") from error
+
+        try:
             return self._decode(data)
-        except (OSError, json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
-            raise StateLoadError("저장 파일이 손상되었거나 읽을 수 없습니다.") from error
+        except (KeyError, TypeError, ValueError) as error:
+            raise InvalidStateError("저장 데이터의 구조가 올바르지 않습니다.") from error
 
     def save(self, state: GameState) -> None:
         data = self._encode(state)

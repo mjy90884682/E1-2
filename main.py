@@ -3,7 +3,7 @@ from pathlib import Path
 from console_ui import ConsoleUI
 from game import QuizGame
 from models import default_state
-from repository import JsonGameStateRepository, StateLoadError
+from repository import InvalidStateError, JsonGameStateRepository, StateAccessError
 
 
 def play_quiz(game: QuizGame, ui: ConsoleUI) -> None:
@@ -46,9 +46,12 @@ def main() -> None:
     repository = JsonGameStateRepository(Path(__file__).with_name("state.json"))
     try:
         state = repository.load()
-    except StateLoadError as error:
+    except InvalidStateError as error:
         ui.show_message(f"{error} 기본 데이터로 시작합니다.")
         state = default_state()
+    except StateAccessError as error:
+        ui.show_message(str(error))
+        return
 
     game = QuizGame(state, repository)
     try:

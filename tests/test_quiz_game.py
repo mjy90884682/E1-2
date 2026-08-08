@@ -5,7 +5,7 @@ from pathlib import Path
 
 from game import QuizGame
 from models import GameState, Quiz, QuizSession, ScoreRecord
-from repository import JsonGameStateRepository, StateLoadError
+from repository import InvalidStateError, JsonGameStateRepository
 
 
 class MemoryRepository:
@@ -85,7 +85,7 @@ class JsonRepositoryTest(unittest.TestCase):
             path = Path(directory) / "state.json"
             path.write_text("not json", encoding="utf-8")
 
-            with self.assertRaises(StateLoadError):
+            with self.assertRaises(InvalidStateError):
                 JsonGameStateRepository(path).load()
 
 
