@@ -25,6 +25,14 @@ class QuizTest(unittest.TestCase):
             Quiz("문제", ("A", "B", "C", "D"), True)
 
 
+class ScoreRecordTest(unittest.TestCase):
+    def test_compares_accuracy_before_correct_count(self) -> None:
+        self.assertTrue(ScoreRecord(1, 1).is_better_than(ScoreRecord(9, 10)))
+
+    def test_prefers_more_correct_answers_when_accuracy_is_equal(self) -> None:
+        self.assertTrue(ScoreRecord(2, 4).is_better_than(ScoreRecord(1, 2)))
+
+
 class QuizSessionTest(unittest.TestCase):
     def test_finishes_and_calculates_result(self) -> None:
         quizzes = [

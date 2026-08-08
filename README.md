@@ -26,3 +26,5 @@ python3 -m unittest discover -s tests -v
 - `main.py`: 객체 조립, 메뉴 흐름과 안전한 종료
 
 `percentage`는 저장하지 않고 `correct`와 `total`로부터 계산합니다. `state.json`이 없으면 별도 리소스인 `data/default_state.json`을 불러옵니다.
+
+최고 점수는 정답률을 먼저 비교합니다. 정답률이 같으면 더 많은 문제를 맞힌 기록을 우선합니다. 예를 들어 `1/1`은 `9/10`보다 높고, `2/4`는 `1/2`보다 높은 기록입니다.

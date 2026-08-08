@@ -55,10 +55,10 @@ class ScoreRecord:
     def is_better_than(self, other: ScoreRecord | None) -> bool:
         if other is None:
             return True
-        return (self.percentage, self.correct) > (
-            other.percentage,
-            other.correct,
-        )
+        rate_comparison = self.correct * other.total - other.correct * self.total
+        if rate_comparison != 0:
+            return rate_comparison > 0
+        return self.correct > other.correct
 
 
 @dataclass
