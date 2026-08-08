@@ -61,6 +61,17 @@ class QuizGameTest(unittest.TestCase):
         self.assertTrue(updated)
         self.assertEqual(result, ScoreRecord(1, 1))
         self.assertEqual(game.export_state().best_score, result)
+        self.assertTrue(game.has_unsaved_changes)
+
+    def test_tracks_unsaved_changes_until_marked_as_saved(self) -> None:
+        quiz = Quiz("문제", ("A", "B", "C", "D"), 1)
+        game = QuizGame(GameState())
+
+        self.assertFalse(game.has_unsaved_changes)
+        game.add_quiz(quiz)
+        self.assertTrue(game.has_unsaved_changes)
+        game.mark_saved()
+        self.assertFalse(game.has_unsaved_changes)
 
 class JsonStorageTest(unittest.TestCase):
     def test_reports_file_system_error_while_saving(self) -> None:
