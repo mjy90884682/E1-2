@@ -3,7 +3,7 @@
 GUI가 필요하지 않은 제출 증거는 다음 명령으로 다시 생성할 수 있습니다.
 
 ```bash
-python3 scripts/capture_terminal_evidence.py
+.venv/bin/python scripts/capture_terminal_evidence.py
 ```
 
 생성 결과:

@@ -1,4 +1,4 @@
-$ python3 --version
+$ python --version
 Python 3.14.4
 
 $ git --version
