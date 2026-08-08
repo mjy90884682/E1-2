@@ -8,15 +8,11 @@
 Docker가 실행 중인 환경에서 다음 명령을 사용합니다.
 
 ```bash
-./scripts/git_clone_pull_practice.sh
+sh scripts/github_clone_pull_practice.sh --execute
 ```
 
-스크립트는 임시 Gitea 서버를 만들고 현재 저장소 게시, 별도 디렉터리 clone, 변경 commit·push, 기존 디렉터리 pull과 내용 검증을 순서대로 수행합니다. 컨테이너와 네트워크는 성공 여부와 관계없이 종료 시 제거됩니다.
-
-기본 이미지는 Gitea 공식 Docker 문서의 안정 버전 예시인 `docker.gitea.com/gitea:1.24.7`입니다. 다른 버전은 다음처럼 지정할 수 있습니다.
-
-```bash
-GITEA_IMAGE=docker.gitea.com/gitea:1.24.7 ./scripts/git_clone_pull_practice.sh
-```
+스크립트는 현재 origin을 별도 디렉터리에 clone하고, 증거 파일을 commit·push한 뒤 기존 작업 디렉터리에서 pull하여 해시와 내용을 검증합니다. 실제 `origin/main`을 변경하므로 제출 저장소가 확정된 뒤 한 번 실행합니다.
 
 생성된 스냅샷과 `manifest.json`은 `snapshots/`에 있습니다. 매니페스트의 Git revision과 SHA-256을 통해 생성 시점과 파일 무결성을 확인할 수 있습니다.
+
+최종 제출에서는 [제출 자료 절차](../submission/README.md)에 따라 annotated tag를 기준으로 메타데이터와 스크린샷을 갱신하고 검증합니다.

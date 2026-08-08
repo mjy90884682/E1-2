@@ -10,7 +10,7 @@
 프로젝트 루트에서 가상환경을 준비하고 실행합니다.
 
 ```bash
-./scripts/setup_venv.sh
+sh scripts/setup_venv.sh
 .venv/bin/python -m unittest discover -s quiz_game/tests -v
 ```
 
