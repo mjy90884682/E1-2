@@ -68,14 +68,7 @@ class JsonGameStateRepository:
         if not isinstance(data, dict) or not isinstance(data.get("quizzes"), list):
             raise ValueError("올바르지 않은 저장 형식입니다.")
 
-        quizzes = [
-            Quiz(
-                question=item["question"],
-                choices=tuple(item["choices"]),
-                answer=item["answer"],
-            )
-            for item in data["quizzes"]
-        ]
+        quizzes = [JsonGameStateRepository._decode_quiz(item) for item in data["quizzes"]]
         score_data = data.get("best_score")
         best_score = (
             None
@@ -86,6 +79,17 @@ class JsonGameStateRepository:
             )
         )
         return GameState(quizzes=quizzes, best_score=best_score)
+
+    @staticmethod
+    def _decode_quiz(item: Any) -> Quiz:
+        if not isinstance(item, dict):
+            raise TypeError("퀴즈는 객체여야 합니다.")
+        question = item["question"]
+        choices = item["choices"]
+        answer = item["answer"]
+        if not isinstance(choices, list):
+            raise TypeError("선택지는 배열이어야 합니다.")
+        return Quiz(question=question, choices=tuple(choices), answer=answer)
 
     @staticmethod
     def _encode(state: GameState) -> dict[str, Any]:
