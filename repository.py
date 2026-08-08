@@ -15,6 +15,10 @@ class StateAccessError(Exception):
     """파일 시스템 문제로 저장 데이터에 접근하지 못할 때 발생한다."""
 
 
+class StateSaveError(Exception):
+    """게임 상태를 파일에 저장하지 못할 때 발생한다."""
+
+
 class GameStateRepository(Protocol):
     def load(self) -> GameState | None: ...
 
@@ -46,10 +50,13 @@ class JsonGameStateRepository:
         data = self._encode(state)
         temporary_path = self._path.with_suffix(self._path.suffix + ".tmp")
 
-        with temporary_path.open("w", encoding="utf-8") as file:
-            json.dump(data, file, ensure_ascii=False, indent=2)
-            file.write("\n")
-        temporary_path.replace(self._path)
+        try:
+            with temporary_path.open("w", encoding="utf-8") as file:
+                json.dump(data, file, ensure_ascii=False, indent=2)
+                file.write("\n")
+            temporary_path.replace(self._path)
+        except OSError as error:
+            raise StateSaveError("게임 상태를 저장할 수 없습니다.") from error
 
     def preserve_invalid_file(self) -> Path:
         backup_path = self._path.with_suffix(self._path.suffix + ".broken")

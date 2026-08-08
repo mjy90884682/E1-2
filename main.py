@@ -7,7 +7,21 @@ from repository import (
     InvalidStateError,
     JsonGameStateRepository,
     StateAccessError,
+    StateSaveError,
 )
+
+
+def save_state(
+    game: QuizGame,
+    repository: GameStateRepository,
+    ui: ConsoleUI,
+) -> bool:
+    try:
+        repository.save(game.export_state())
+    except StateSaveError as error:
+        ui.show_message(f"{error} 변경 내용은 현재 실행 중에만 유지됩니다.")
+        return False
+    return True
 
 
 def play_quiz(game: QuizGame, ui: ConsoleUI, repository: GameStateRepository) -> None:
@@ -25,7 +39,7 @@ def play_quiz(game: QuizGame, ui: ConsoleUI, repository: GameStateRepository) ->
 
     result, is_new_best = game.complete_quiz(session)
     if is_new_best:
-        repository.save(game.export_state())
+        save_state(game, repository, ui)
     ui.show_result(result, is_new_best)
 
 
@@ -42,8 +56,8 @@ def run_menu(
             play_quiz(game, ui, repository)
         elif choice == 2:
             game.add_quiz(ui.ask_new_quiz())
-            repository.save(game.export_state())
-            ui.show_message("퀴즈가 저장되었습니다.")
+            if save_state(game, repository, ui):
+                ui.show_message("퀴즈가 저장되었습니다.")
         elif choice == 3:
             ui.show_quizzes(game.list_quizzes())
         elif choice == 4:
