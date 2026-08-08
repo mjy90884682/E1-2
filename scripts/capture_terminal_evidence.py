@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import pty
+import re
 import select
 import shutil
 import struct
@@ -53,7 +54,16 @@ def run_text(*command: str) -> str:
     return completed.stdout
 
 
-def capture_quiz_session(destination: Path) -> None:
+ANSI_ESCAPE = re.compile(r"\x1b(?:\[[0-?]*[ -/]*[@-~]|\][^\x07]*(?:\x07|\x1b\\))")
+
+
+def plain_transcript(output: str) -> str:
+    """PTY 출력을 diff와 후속 렌더링에 적합한 고정 텍스트로 만든다."""
+    normalized = output.replace("\r\n", "\n").replace("\r", "\n")
+    return "$ python -m quiz_game\n" + ANSI_ESCAPE.sub("", normalized).rstrip() + "\n"
+
+
+def capture_quiz_session(destination: Path) -> str:
     with tempfile.TemporaryDirectory(prefix="quiz-evidence-") as directory:
         working_directory = Path(directory)
         # 실제 state.json을 건드리지 않도록 패키지를 임시 디렉터리에 복사한다.
@@ -85,6 +95,7 @@ def capture_quiz_session(destination: Path) -> None:
         pending_output = ""
         # PTY는 한글 한 글자의 UTF-8 바이트를 여러 번에 나눠 반환할 수 있다.
         decoder = codecs.getincrementaldecoder("utf-8")()
+        captured_output: list[str] = []
 
         header = {
             "version": 2,
@@ -110,6 +121,7 @@ def capture_quiz_session(destination: Path) -> None:
                     decoded = decoder.decode(data)
                     if not decoded:
                         continue
+                    captured_output.append(decoded)
                     pending_output += decoded
                     event = [round(time.monotonic() - started_at, 6), "o", decoded]
                     output.write(json.dumps(event, ensure_ascii=False) + "\n")
@@ -128,6 +140,7 @@ def capture_quiz_session(destination: Path) -> None:
             raise RuntimeError("퀴즈 증거 세션 실행에 실패했습니다.")
         if expected_prompt:
             raise RuntimeError(f"예상한 프롬프트를 찾지 못했습니다: {expected_prompt}")
+        return plain_transcript("".join(captured_output))
 
 
 def sha256(path: Path) -> str:
@@ -143,6 +156,7 @@ def main() -> None:
     environment_path = OUTPUT_DIR / "environment.txt"
     graph_path = OUTPUT_DIR / "git-graph.txt"
     session_path = OUTPUT_DIR / "quiz-session.cast"
+    transcript_path = OUTPUT_DIR / "quiz-session.txt"
 
     environment_path.write_text(
         "$ python --version\n"
@@ -160,10 +174,13 @@ def main() -> None:
         + "\n",
         encoding="utf-8",
     )
-    capture_quiz_session(session_path)
+    transcript_path.write_text(
+        capture_quiz_session(session_path),
+        encoding="utf-8",
+    )
 
     revision = run_text("git", "rev-parse", "HEAD").strip()
-    files = [environment_path, graph_path, session_path]
+    files = [environment_path, graph_path, session_path, transcript_path]
     manifest = {
         "revision": revision,
         "generator": str(Path(__file__).relative_to(PROJECT_ROOT)),

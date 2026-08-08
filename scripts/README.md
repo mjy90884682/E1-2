@@ -3,7 +3,7 @@
 | 스크립트 | 목적 | 요구 환경 |
 |---|---|---|
 | `setup_venv.sh` | `.venv` 생성 및 로컬 `src` 패키지 연결 | Python 3.10+, POSIX 셸 |
-| `capture_terminal_evidence.py` | 퀴즈 전체 흐름 PTY 기록과 해시 생성 | 준비된 `.venv` |
+| `capture_terminal_evidence.py` | 프롬프트와 입력을 포함한 퀴즈 PTY·텍스트 기록과 해시 생성 | 준비된 `.venv` |
 | `capture_submission_screenshots.py` | 지정한 tag의 실제 출력으로 제출 PNG 생성 | 준비된 `.venv`, Docker |
 | `github_clone_pull_practice.sh` | 실제 GitHub origin에서 clone·push·pull 실습 | GitHub 쓰기 권한, Git, POSIX 셸 |
 | `verify_public_origin.sh` | 깨끗한 컨테이너에서 origin 공개 접근 확인 | Docker, POSIX 셸 |

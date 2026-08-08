@@ -1,7 +1,24 @@
 $ git log --oneline --graph --decorate --all
-* 62f1b46 (HEAD -> docs/explain-nonobvious-design) Docs: 초보자를 위한 핵심 개념과 테스트 안내 추가
-* a601864 Docs: 비직관적인 코드와 스크립트 의도 설명
-*   da766b2 (origin/main, main) Merge branch 'refactor/remove-redundancy'
+*   b77b2bb (HEAD -> main, origin/main) Merge branch 'feat/submission-automation'
+|\
+| * 3432a59 (feat/submission-automation) Docs: 재현 가능한 제출 스크린샷 추가
+| * b5d5ff6 Build: 태그 기준 제출 검증 절차 추가
+| * ff7b710 Refactor: clone pull 실습을 실제 GitHub 대상으로 전환
+|/
+*-.   abdf68d Merge diverged quiz play progress improvements
+|\ \
+| | * 46f9c32 (feat/play-live-score) Feat: 퀴즈 풀이 중 현재 점수 표시
+| |/
+|/|
+| * ddc4473 (feat/play-progress) Feat: 퀴즈 문제별 진행률 표시
+|/
+*   531ab81 Merge branch 'docs/explain-nonobvious-design'
+|\
+| * 084076e (docs/explain-nonobvious-design) Fix: PTY 한글 출력을 증분 디코딩
+| * 62f1b46 Docs: 초보자를 위한 핵심 개념과 테스트 안내 추가
+| * a601864 Docs: 비직관적인 코드와 스크립트 의도 설명
+|/
+*   da766b2 Merge branch 'refactor/remove-redundancy'
 |\
 | * a235a2a (refactor/remove-redundancy) Refactor: Git 실습과 공개 접근 검증 의미 정리
 | * af54097 Refactor: 사용하지 않는 설정과 중복 코드 제거
