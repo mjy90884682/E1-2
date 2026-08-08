@@ -24,5 +24,5 @@
       <tspan x="72" y="550">정답 번호: 1</tspan>
       <tspan x="72" y="574">퀴즈가 저장되었습니다.</tspan>
   </text>
-  <text x="50" y="636" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="636" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>

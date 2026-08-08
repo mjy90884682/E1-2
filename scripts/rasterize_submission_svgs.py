@@ -33,8 +33,6 @@ def main() -> None:
     svg_manifest_path = SCREENSHOT_DIR / "svg-manifest.json"
     svg_manifest = json.loads(svg_manifest_path.read_text(encoding="utf-8"))
     run("docker", "build", "--tag", IMAGE, "--file", str(DOCKERFILE), ".")
-    image_id = run("docker", "image", "inspect", "--format", "{{.Id}}", IMAGE).strip()
-
     generated: dict[str, dict[str, str]] = {}
     mount = f"type=bind,src={SCREENSHOT_DIR},dst=/work"
     user = f"{os.getuid()}:{os.getgid()}"
@@ -60,10 +58,11 @@ def main() -> None:
         }
 
     manifest = {
+        "revision": svg_manifest["revision"],
+        "revision_input": svg_manifest["revision_input"],
         "generator": str(Path(__file__).relative_to(PROJECT_ROOT)),
         "dockerfile": str(DOCKERFILE.relative_to(PROJECT_ROOT)),
         "image": IMAGE,
-        "image_id": image_id,
         "resvg_revision": "68b14c4c3bccdb60344c777406486b54c36ec1a4",
         "font_package": "fonts-noto-cjk=1:20220127+repack1-1",
         "pngs": generated,

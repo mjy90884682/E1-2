@@ -1,5 +1,8 @@
 $ git log --oneline --graph --decorate --all
-* 9d83ae5 (HEAD -> main, origin/main) Feat: 실제 터미널 입력 증거 보존
+* 5ff8663 (HEAD -> main) Build: 멀티아키텍처 SVG rasterizer 고정
+* f910973 Feat: 터미널 증거를 재현 가능한 SVG로 생성
+* 9fc0eaf Feat: 터미널 증거를 시나리오별로 분리
+* 9d83ae5 (origin/main) Feat: 실제 터미널 입력 증거 보존
 *   b77b2bb Merge branch 'feat/submission-automation'
 |\
 | * 3432a59 (feat/submission-automation) Docs: 재현 가능한 제출 스크린샷 추가
@@ -68,20 +71,3 @@ $ git log --oneline --graph --decorate --all
 |\
 | * 42ff4a1 (refactor/centralize-save-policy) Refactor: 상태 저장 시점을 애플리케이션 경계로 이동
 |/
-*   6fffe6c Merge branch 'refactor/externalize-default-state'
-|\
-| * 421cb5d (refactor/externalize-default-state) Refactor: 기본 상태를 JSON 리소스로 분리
-|/
-*   19690a2 Merge branch 'fix/validate-state-schema'
-|\
-| * 37baa17 (fix/validate-state-schema) Fix: JSON 상태 필드 타입 검증 강화
-|/
-*   cae2d45 Merge branch 'fix/preserve-invalid-state'
-|\
-| * 80067ce (fix/preserve-invalid-state) Fix: 손상된 상태 파일을 복구 전에 보존
-|/
-*   79b24d2 Merge branch 'fix/distinguish-load-errors'
-|\
-| * aa01458 (fix/distinguish-load-errors) Fix: 저장 데이터 오류와 접근 오류 구분
-|/
-* 3a70fce Feat: 퀴즈 게임 프로토타입 구현

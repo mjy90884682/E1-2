@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
+import argparse
 import codecs
 import errno
 import fcntl
 import hashlib
+import io
 import json
 import os
 import pty
@@ -13,6 +15,7 @@ import shutil
 import struct
 import subprocess
 import sys
+import tarfile
 import tempfile
 import time
 from pathlib import Path
@@ -81,12 +84,23 @@ def split_menu_sessions(transcript: str) -> dict[str, str]:
     }
 
 
-def capture_quiz_session(destination: Path) -> str:
+def extract_revision(revision: str, destination: Path) -> None:
+    archive = subprocess.run(
+        ["git", "archive", "--format=tar", revision],
+        cwd=PROJECT_ROOT,
+        check=True,
+        stdout=subprocess.PIPE,
+    ).stdout
+    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as archive_file:
+        archive_file.extractall(destination, filter="data")
+
+
+def capture_quiz_session(destination: Path, source: Path = PROJECT_ROOT) -> str:
     with tempfile.TemporaryDirectory(prefix="quiz-evidence-") as directory:
         working_directory = Path(directory)
         # 실제 state.json을 건드리지 않도록 패키지를 임시 디렉터리에 복사한다.
         shutil.copytree(
-            PROJECT_ROOT / "quiz_game" / "src" / "quiz_game",
+            source / "quiz_game" / "src" / "quiz_game",
             working_directory / "quiz_game",
         )
 
@@ -170,6 +184,14 @@ def sha256(path: Path) -> str:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--revision",
+        default="HEAD",
+        help="퀴즈 실행과 Git 그래프를 생성할 Git tag 또는 commit (기본값: HEAD)",
+    )
+    args = parser.parse_args()
+    revision = run_text("git", "rev-parse", f"{args.revision}^{{commit}}").strip()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     environment_path = OUTPUT_DIR / "environment.txt"
     graph_path = OUTPUT_DIR / "git-graph.txt"
@@ -185,17 +207,22 @@ def main() -> None:
         + run_text("uname", "-a"),
         encoding="utf-8",
     )
-    graph = run_text("git", "log", "--oneline", "--graph", "--decorate", "--all")
+    graph = run_text(
+        "git", "log", "--oneline", "--graph", "--decorate", "--max-count=40", revision
+    )
     graph_path.write_text(
         "$ git log --oneline --graph --decorate --all\n"
         + "\n".join(line.rstrip() for line in graph.splitlines())
         + "\n",
         encoding="utf-8",
     )
-    transcript_path.write_text(
-        capture_quiz_session(session_path),
-        encoding="utf-8",
-    )
+    with tempfile.TemporaryDirectory(prefix="quiz-revision-") as directory:
+        source = Path(directory)
+        extract_revision(revision, source)
+        transcript_path.write_text(
+            capture_quiz_session(session_path, source),
+            encoding="utf-8",
+        )
     scenario_paths: list[Path] = []
     for name, transcript in split_menu_sessions(
         transcript_path.read_text(encoding="utf-8")
@@ -204,7 +231,6 @@ def main() -> None:
         path.write_text(transcript, encoding="utf-8")
         scenario_paths.append(path)
 
-    revision = run_text("git", "rev-parse", "HEAD").strip()
     files = [
         environment_path,
         graph_path,
@@ -214,6 +240,7 @@ def main() -> None:
     ]
     manifest = {
         "revision": revision,
+        "revision_input": args.revision,
         "generator": str(Path(__file__).relative_to(PROJECT_ROOT)),
         "files": {
             str(path.relative_to(PROJECT_ROOT)): {"sha256": sha256(path)} for path in files

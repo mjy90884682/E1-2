@@ -4,7 +4,7 @@
 
 실행 로그와 스크린샷 같은 생성물은 보통 Git 저장소보다 CI artifact나 Release에 보관하는 편이 좋습니다. 특히 PNG는 diff 검토가 어렵고 저장소 크기를 계속 늘립니다.
 
-이 저장소는 과제가 실행 화면과 개발 환경의 **스크린샷 제출을 명시적으로 요구하기 때문에 예외적으로 `docs/submission/screenshots/`의 PNG를 커밋**합니다. 각 자동 생성 PNG는 기준 Git revision, 생성 스크립트, 고정 Chromium image digest와 SHA-256을 `manifest.json`에 기록해 임의로 만든 이미지와 구분합니다.
+이 저장소는 과제가 실행 화면과 개발 환경의 **스크린샷 제출을 명시적으로 요구하기 때문에 예외적으로 `docs/submission/screenshots/`의 PNG를 커밋**합니다. 각 자동 생성 PNG는 실제 PTY 텍스트에서 SVG를 거쳐 만들어지며, 단계별 SHA-256과 고정 resvg·글꼴 버전을 매니페스트에 기록합니다.
 
 ## 최종 생성 순서
 

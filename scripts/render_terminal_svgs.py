@@ -71,7 +71,7 @@ def render_svg(title: str, subtitle: str, transcript: str) -> str:
   <text fill="#d1fae5" font-family="{FONT_FAMILY}" font-size="16">
 {text_lines}
   </text>
-  <text x="50" y="{height - 20}" fill="#94a3b8" font-family="{FONT_FAMILY}" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="{height - 20}" fill="#94a3b8" font-family="{FONT_FAMILY}" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>
 '''
 
@@ -82,6 +82,9 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    evidence_manifest = json.loads(
+        (SNAPSHOT_DIR / "manifest.json").read_text(encoding="utf-8")
+    )
     generated: dict[str, dict[str, str]] = {}
     for name, (title, subtitle, source_name) in EVIDENCE.items():
         source = SNAPSHOT_DIR / source_name
@@ -97,6 +100,8 @@ def main() -> None:
         }
 
     manifest = {
+        "revision": evidence_manifest["revision"],
+        "revision_input": evidence_manifest["revision_input"],
         "generator": str(Path(__file__).relative_to(PROJECT_ROOT)),
         "font_family": FONT_FAMILY,
         "svgs": generated,

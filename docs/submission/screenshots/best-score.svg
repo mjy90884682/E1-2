@@ -16,5 +16,5 @@
       <tspan x="72" y="358">선택: 4</tspan>
       <tspan x="72" y="382">최고 점수: 6/6 (100점)</tspan>
   </text>
-  <text x="50" y="444" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="444" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>

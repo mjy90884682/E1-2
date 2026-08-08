@@ -77,5 +77,5 @@
       <tspan x="72" y="1822">결과: 6문제 중 6문제 정답 (100점)</tspan>
       <tspan x="72" y="1846">새로운 최고 점수입니다!</tspan>
   </text>
-  <text x="50" y="1908" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="1908" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>

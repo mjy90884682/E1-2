@@ -15,5 +15,5 @@
       <tspan x="72" y="334">Linux remote-main-4 7.0.0-22-generic #22-Ubuntu SMP PREEMPT_DYNAMIC Mon May 25 15:54:34 UTC 2026 x86_6</tspan>
       <tspan x="72" y="358">4 GNU/Linux</tspan>
   </text>
-  <text x="50" y="420" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="420" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>

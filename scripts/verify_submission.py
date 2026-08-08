@@ -68,15 +68,47 @@ def main() -> None:
     if metadata != expected_metadata:
         fail("metadata.json이 현재 tag 또는 origin과 다릅니다. refresh 스크립트를 실행하세요.")
 
-    manifest = json.loads((SCREENSHOT_DIR / "manifest.json").read_text(encoding="utf-8"))
-    if manifest.get("revision_input") != args.tag or manifest.get("revision") != revision:
-        fail("스크린샷이 지정한 tag에서 생성되지 않았습니다.")
-    if manifest.get("remote") != remote:
-        fail("스크린샷 manifest의 origin이 현재 origin과 다릅니다.")
-    for relative_path, record in manifest.get("screenshots", {}).items():
+    evidence_manifest = json.loads(
+        (PROJECT_ROOT / "docs/evidence/snapshots/manifest.json").read_text(encoding="utf-8")
+    )
+    svg_manifest = json.loads(
+        (SCREENSHOT_DIR / "svg-manifest.json").read_text(encoding="utf-8")
+    )
+    raster_manifest = json.loads(
+        (SCREENSHOT_DIR / "raster-manifest.json").read_text(encoding="utf-8")
+    )
+    if raster_manifest.get("resvg_revision") != "68b14c4c3bccdb60344c777406486b54c36ec1a4":
+        fail("검증되지 않은 resvg revision으로 PNG가 생성되었습니다.")
+    if raster_manifest.get("font_package") != "fonts-noto-cjk=1:20220127+repack1-1":
+        fail("검증되지 않은 글꼴 패키지로 PNG가 생성되었습니다.")
+    for name, manifest in (
+        ("터미널", evidence_manifest),
+        ("SVG", svg_manifest),
+        ("PNG", raster_manifest),
+    ):
+        if manifest.get("revision_input") != args.tag or manifest.get("revision") != revision:
+            fail(f"{name} 증거가 지정한 tag에서 생성되지 않았습니다.")
+
+    for relative_path, record in evidence_manifest.get("files", {}).items():
         path = PROJECT_ROOT / relative_path
         if not path.is_file() or sha256(path) != record.get("sha256"):
-            fail(f"스크린샷이 없거나 해시가 다릅니다: {relative_path}")
+            fail(f"터미널 증거가 없거나 해시가 다릅니다: {relative_path}")
+
+    for relative_path, record in svg_manifest.get("svgs", {}).items():
+        path = PROJECT_ROOT / relative_path
+        source = PROJECT_ROOT / record["source"]
+        if sha256(source) != record.get("source_sha256"):
+            fail(f"SVG의 원본 텍스트 해시가 다릅니다: {record['source']}")
+        if not path.is_file() or sha256(path) != record.get("sha256"):
+            fail(f"SVG가 없거나 해시가 다릅니다: {relative_path}")
+
+    for relative_path, record in raster_manifest.get("pngs", {}).items():
+        path = PROJECT_ROOT / relative_path
+        source = PROJECT_ROOT / record["source"]
+        if sha256(source) != record.get("source_sha256"):
+            fail(f"PNG의 원본 SVG 해시가 다릅니다: {record['source']}")
+        if not path.is_file() or sha256(path) != record.get("sha256"):
+            fail(f"PNG가 없거나 해시가 다릅니다: {relative_path}")
 
     vscode_path = SCREENSHOT_DIR / "vscode-environment.png"
     if not vscode_path.is_file() and not args.allow_missing_vscode:

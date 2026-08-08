@@ -21,5 +21,5 @@
       <tspan x="72" y="478">5. JSON 파일을 다룰 때 사용하는 표준 모듈은?</tspan>
       <tspan x="72" y="502">6. 증거용으로 추가한 문제는?</tspan>
   </text>
-  <text x="50" y="564" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+  <text x="50" y="564" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 svg-manifest.json에 기록</text>
 </svg>
