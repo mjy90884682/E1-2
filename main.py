@@ -22,6 +22,7 @@ def save_state(
     except StateSaveError as error:
         ui.show_message(f"{error} 변경 내용은 현재 실행 중에만 유지됩니다.")
         return False
+    game.mark_saved()
     return True
 
 
@@ -102,6 +103,10 @@ def main() -> None:
         run_menu(game, ui, state_path)
     except (KeyboardInterrupt, EOFError):
         ui.show_message("\n입력이 중단되어 종료합니다.")
+    finally:
+        if game.has_unsaved_changes:
+            ui.show_message("저장하지 못한 변경을 다시 저장합니다.")
+            save_state(game, state_path, ui)
 
 
 if __name__ == "__main__":
