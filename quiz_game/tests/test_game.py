@@ -69,7 +69,3 @@ class QuizGameTest(unittest.TestCase):
         self.assertTrue(game.has_unsaved_changes)
         game.mark_saved()
         self.assertFalse(game.has_unsaved_changes)
-
-
-if __name__ == "__main__":
-    unittest.main()

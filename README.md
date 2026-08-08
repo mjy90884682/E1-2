@@ -43,8 +43,7 @@ python -m unittest discover -s quiz_game/tests -v
 │   └── tests/               # 책임별 단위 테스트
 ├── scripts/                 # 환경 설정, Git 실습과 증거 생성
 ├── docs/                    # 설계, 데이터 형식과 제출 증거
-├── main.py                  # 과제 실행 방식 호환 진입점
-└── pyproject.toml           # Python 패키지 메타데이터
+└── main.py                  # 과제 실행 방식 호환 진입점
 ```
 
 ## 데이터 파일

@@ -34,8 +34,7 @@ def play_quiz(game: QuizGame, ui: ConsoleUI, state_path: Path) -> None:
 
     while not session.is_finished:
         quiz = session.current_quiz
-        if quiz is None:
-            break
+        assert quiz is not None
         choice = ui.ask_answer(quiz, session.current_number, session.total)
         ui.show_message("정답입니다!" if session.submit_answer(choice) else "오답입니다.")
 

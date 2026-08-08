@@ -31,7 +31,3 @@ class ConsoleInputTest(unittest.TestCase):
 
         self.assertEqual(quiz.question, "문제")
         self.assertEqual(quiz.answer, 2)
-
-
-if __name__ == "__main__":
-    unittest.main()
