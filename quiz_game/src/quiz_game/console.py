@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 
-from models import Quiz, ScoreRecord
+from .models import Quiz, ScoreRecord
 
 
 class ConsoleUI:

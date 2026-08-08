@@ -3,9 +3,15 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from game import QuizGame
-from models import GameState, Quiz, QuizSession, ScoreRecord
-from storage import InvalidStateError, StateSaveError, load_state, preserve_invalid_file, save_state
+from quiz_game.game import QuizGame
+from quiz_game.models import GameState, Quiz, QuizSession, ScoreRecord
+from quiz_game.storage import (
+    InvalidStateError,
+    StateSaveError,
+    load_state,
+    preserve_invalid_file,
+    save_state,
+)
 
 
 class QuizTest(unittest.TestCase):

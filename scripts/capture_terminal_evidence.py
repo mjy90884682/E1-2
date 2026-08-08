@@ -11,6 +11,7 @@ import select
 import shutil
 import struct
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -19,13 +20,6 @@ from termios import TIOCSWINSZ
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_DIR = PROJECT_ROOT / "docs" / "evidence" / "snapshots"
-PROJECT_FILES = (
-    "console_ui.py",
-    "game.py",
-    "main.py",
-    "models.py",
-    "storage.py",
-)
 SCRIPTED_DIALOGUE = (
     ("선택: ", "2"),
     ("문제: ", "증거용으로 추가한 문제는?"),
@@ -62,21 +56,27 @@ def run_text(*command: str) -> str:
 def capture_quiz_session(destination: Path) -> None:
     with tempfile.TemporaryDirectory(prefix="quiz-evidence-") as directory:
         working_directory = Path(directory)
-        for filename in PROJECT_FILES:
-            shutil.copy2(PROJECT_ROOT / filename, working_directory / filename)
-        shutil.copytree(PROJECT_ROOT / "data", working_directory / "data")
+        shutil.copytree(
+            PROJECT_ROOT / "quiz_game" / "src" / "quiz_game",
+            working_directory / "quiz_game",
+        )
 
         master_fd, slave_fd = pty.openpty()
         fcntl.ioctl(master_fd, TIOCSWINSZ, struct.pack("HHHH", 30, 100, 0, 0))
         started_at = time.monotonic()
         process = subprocess.Popen(
-            ["python3", "main.py"],
+            [sys.executable, "-m", "quiz_game"],
             cwd=working_directory,
             stdin=slave_fd,
             stdout=slave_fd,
             stderr=slave_fd,
             close_fds=True,
-            env={**os.environ, "TERM": "xterm-256color", "PYTHONUNBUFFERED": "1"},
+            env={
+                **os.environ,
+                "TERM": "xterm-256color",
+                "PYTHONUNBUFFERED": "1",
+                "PYTHONPATH": str(working_directory),
+            },
         )
         os.close(slave_fd)
         dialogue = iter(SCRIPTED_DIALOGUE)
@@ -89,7 +89,7 @@ def capture_quiz_session(destination: Path) -> None:
             "height": 30,
             "timestamp": int(time.time()),
             "env": {"SHELL": "/bin/sh", "TERM": "xterm-256color"},
-            "command": "python3 main.py",
+            "command": "python -m quiz_game",
         }
         with destination.open("w", encoding="utf-8") as output:
             output.write(json.dumps(header, ensure_ascii=False) + "\n")
@@ -139,8 +139,8 @@ def main() -> None:
     session_path = OUTPUT_DIR / "quiz-session.cast"
 
     environment_path.write_text(
-        "$ python3 --version\n"
-        + run_text("python3", "--version")
+        "$ python --version\n"
+        + run_text(sys.executable, "--version")
         + "\n$ git --version\n"
         + run_text("git", "--version")
         + "\n$ uname -a\n"

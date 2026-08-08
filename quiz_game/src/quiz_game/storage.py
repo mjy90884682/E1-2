@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from models import GameState
+from .models import GameState
 
 
 class InvalidStateError(Exception):
