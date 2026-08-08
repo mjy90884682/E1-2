@@ -110,14 +110,3 @@ class QuizSession:
             for quiz, answer in zip(self._quizzes, self._answers)
         )
         return ScoreRecord(correct=correct, total=self.total)
-
-
-def default_state() -> GameState:
-    quizzes = [
-        Quiz("Python에서 함수를 정의할 때 사용하는 키워드는?", ("func", "def", "function", "lambda"), 2),
-        Quiz("리스트의 마지막 요소를 추가하는 메서드는?", ("add", "push", "append", "insert_last"), 3),
-        Quiz("조건문에 사용하는 키워드가 아닌 것은?", ("if", "elif", "else", "when"), 4),
-        Quiz("키와 값의 쌍을 저장하는 자료형은?", ("list", "tuple", "dict", "set"), 3),
-        Quiz("JSON 파일을 다룰 때 사용하는 표준 모듈은?", ("json", "pickle", "csv", "pathlib"), 1),
-    ]
-    return GameState(quizzes=quizzes)

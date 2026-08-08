@@ -70,6 +70,12 @@ class QuizGameTest(unittest.TestCase):
 
 
 class JsonRepositoryTest(unittest.TestCase):
+    def test_returns_none_when_state_file_is_missing(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "state.json"
+
+            self.assertIsNone(JsonGameStateRepository(path).load())
+
     def test_round_trip(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"

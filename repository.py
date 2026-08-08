@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Protocol
 
-from models import GameState, Quiz, ScoreRecord, default_state
+from models import GameState, Quiz, ScoreRecord
 
 
 class InvalidStateError(Exception):
@@ -16,7 +16,7 @@ class StateAccessError(Exception):
 
 
 class GameStateRepository(Protocol):
-    def load(self) -> GameState: ...
+    def load(self) -> GameState | None: ...
 
     def save(self, state: GameState) -> None: ...
 
@@ -25,9 +25,9 @@ class JsonGameStateRepository:
     def __init__(self, path: Path) -> None:
         self._path = path
 
-    def load(self) -> GameState:
+    def load(self) -> GameState | None:
         if not self._path.exists():
-            return default_state()
+            return None
 
         try:
             with self._path.open(encoding="utf-8") as file:
