@@ -16,7 +16,8 @@ class ConsoleUI:
         return self._ask_number("선택: ", 1, 5)
 
     def ask_answer(self, quiz: Quiz, number: int, total: int) -> int:
-        print(f"\n[{number}/{total}] {quiz.question}")
+        print(f"\n진행: {number}/{total}")
+        print(f"문제: {quiz.question}")
         for index, choice in enumerate(quiz.choices, start=1):
             print(f"  {index}. {choice}")
         return self._ask_number("정답: ", 1, len(quiz.choices))
