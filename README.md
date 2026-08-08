@@ -71,6 +71,7 @@ python -m unittest discover -s quiz_game/tests -v
 ## 문서
 
 - [퀴즈 게임 컴포넌트](quiz_game/README.md)
+- [처음 보는 사람을 위한 핵심 개념](docs/concepts.md)
 - [설계와 책임 분리](docs/architecture.md)
 - [JSON 데이터 형식](docs/data-format.md)
 - [Docker/Gitea Git 실습](docs/git-practice.md)

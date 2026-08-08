@@ -14,6 +14,7 @@ quiz_game/
 │       ├── models.py
 │       └── storage.py
 └── tests/
+    ├── README.md
     ├── test_console.py
     ├── test_game.py
     ├── test_models.py
@@ -30,3 +31,5 @@ python -m unittest discover -s quiz_game/tests -v
 ```
 
 `tests`는 배포 패키지에 포함되지 않으며, `src/quiz_game`의 공개 동작과 오류 경계를 검증합니다.
+
+각 테스트의 목적과 작성 기준은 [테스트 안내](tests/README.md)를 참고하세요.

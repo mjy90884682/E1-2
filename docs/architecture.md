@@ -10,6 +10,16 @@ main.py
     └── storage
 ```
 
+프로그램은 다음 순서로 동작합니다.
+
+```text
+state.json 읽기
+→ 없으면 initial_state.json 읽기
+→ 메뉴에서 사용자 입력 받기
+→ QuizGame이 상태 변경
+→ 변경된 GameState를 state.json에 저장
+```
+
 - `Quiz`는 문제 데이터 검증과 정답 판정을 담당합니다.
 - `QuizSession`은 한 번의 풀이 순서, 답안과 결과를 관리합니다.
 - `ScoreRecord`는 정답률 우선의 최고 점수 비교 정책을 가집니다.
