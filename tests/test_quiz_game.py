@@ -88,6 +88,19 @@ class JsonRepositoryTest(unittest.TestCase):
             with self.assertRaises(InvalidStateError):
                 JsonGameStateRepository(path).load()
 
+    def test_preserves_invalid_file_without_overwriting_existing_backup(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "state.json"
+            path.write_text("broken", encoding="utf-8")
+            path.with_suffix(".json.broken").write_text("older", encoding="utf-8")
+            repository = JsonGameStateRepository(path)
+
+            backup_path = repository.preserve_invalid_file()
+
+            self.assertEqual(backup_path.name, "state.json.broken.1")
+            self.assertEqual(backup_path.read_text(encoding="utf-8"), "broken")
+            self.assertFalse(path.exists())
+
 
 if __name__ == "__main__":
     unittest.main()
