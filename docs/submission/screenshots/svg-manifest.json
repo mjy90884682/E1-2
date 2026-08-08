@@ -1,5 +1,5 @@
 {
-  "revision": "5ff866390c38bfde8a501d5ecfb8513b77b04b27",
+  "revision": "c8121694f98349fc6bf33ac22009250f75aa5737",
   "revision_input": "HEAD",
   "generator": "scripts/render_terminal_svgs.py",
   "font_family": "Noto Sans CJK KR",
@@ -31,8 +31,8 @@
     },
     "docs/submission/screenshots/git-graph.svg": {
       "source": "docs/evidence/snapshots/git-graph.txt",
-      "source_sha256": "2376106ea0c3c9ec39b8530e02827410146e3074abc53d1dcf7a42a10e27a1e0",
-      "sha256": "64a1d0453997f45bd9a3038b17a0679b8f11b38f5d397f1992f9b1f176d66efd"
+      "source_sha256": "f01f3e2e2ab311e432bebc8aabe2c53d6b65cc193f66debfa56c799b03e94efa",
+      "sha256": "d812d2b402b030d4a4e43e20f7bf0e039768d5e4e54040830fa726b66d554137"
     }
   }
 }

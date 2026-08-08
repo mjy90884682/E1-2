@@ -1,5 +1,6 @@
 $ git log --oneline --graph --decorate --all
-* 5ff8663 (HEAD -> main) Build: 멀티아키텍처 SVG rasterizer 고정
+* c812169 (HEAD -> main) Refactor: 제출 캡처를 PTY SVG 파이프라인으로 전환
+* 5ff8663 Build: 멀티아키텍처 SVG rasterizer 고정
 * f910973 Feat: 터미널 증거를 재현 가능한 SVG로 생성
 * 9fc0eaf Feat: 터미널 증거를 시나리오별로 분리
 * 9d83ae5 (origin/main) Feat: 실제 터미널 입력 증거 보존
@@ -69,5 +70,3 @@ $ git log --oneline --graph --decorate --all
 |/
 *   252c3b2 Merge branch 'refactor/centralize-save-policy'
 |\
-| * 42ff4a1 (refactor/centralize-save-policy) Refactor: 상태 저장 시점을 애플리케이션 경계로 이동
-|/

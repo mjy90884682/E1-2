@@ -1,5 +1,5 @@
 {
-  "revision": "5ff866390c38bfde8a501d5ecfb8513b77b04b27",
+  "revision": "c8121694f98349fc6bf33ac22009250f75aa5737",
   "revision_input": "HEAD",
   "generator": "scripts/rasterize_submission_svgs.py",
   "dockerfile": "scripts/Dockerfile.svg-rasterizer",
@@ -34,8 +34,8 @@
     },
     "docs/submission/screenshots/git-graph.png": {
       "source": "docs/submission/screenshots/git-graph.svg",
-      "source_sha256": "64a1d0453997f45bd9a3038b17a0679b8f11b38f5d397f1992f9b1f176d66efd",
-      "sha256": "e0c7f48c8990f8783ab2f6463b031f34ad9d997ea20284a4aa47551fdffaf1d9"
+      "source_sha256": "d812d2b402b030d4a4e43e20f7bf0e039768d5e4e54040830fa726b66d554137",
+      "sha256": "875fec68e04deedb490cc4a6c30180d0059bbe79e36ed40b79358d409bb55012"
     }
   }
 }
