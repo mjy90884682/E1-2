@@ -1,7 +1,12 @@
 $ git log --oneline --graph --decorate --all
-* 7846937 (HEAD -> refactor/package-layout-and-docs) Test: 퀴즈 게임 테스트를 책임별로 분리
-* 133b778 Refactor: 퀴즈 게임을 src 패키지로 구성
-*---.   2bc1554 (origin/main, main) Merge reproducible Git and submission evidence tooling
+* af54097 (HEAD -> refactor/remove-redundancy) Refactor: 사용하지 않는 설정과 중복 코드 제거
+*   44b2546 (origin/main, main) Merge branch 'refactor/package-layout-and-docs'
+|\
+| * 7e833b8 (refactor/package-layout-and-docs) Docs: 컴포넌트별 안내와 설계 문서 구성
+| * 7846937 Test: 퀴즈 게임 테스트를 책임별로 분리
+| * 133b778 Refactor: 퀴즈 게임을 src 패키지로 구성
+|/
+*---.   2bc1554 Merge reproducible Git and submission evidence tooling
 |\ \ \
 | | | * aaf0102 (test/public-origin-access) Test: 비인증 origin 공개 접근 검증
 | |_|/

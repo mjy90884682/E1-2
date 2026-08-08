@@ -25,21 +25,24 @@ esac
 
 printf 'origin=%s\n' "$ORIGIN_URL"
 printf 'client_image=%s\n' "$GIT_CLIENT_IMAGE"
-printf 'authentication=disabled (clean container, no host mounts, no prompts)\n'
+printf 'authentication=disabled (clean container, empty environment, no host mounts or prompts)\n'
 
 docker run --rm \
-    --env HOME=/tmp/empty-home \
-    --env GIT_CONFIG_GLOBAL=/dev/null \
-    --env GIT_CONFIG_NOSYSTEM=1 \
-    --env GIT_TERMINAL_PROMPT=0 \
-    --env GIT_ASKPASS=/bin/false \
-    --env SSH_ASKPASS=/bin/false \
     --env "ORIGIN_URL=$ORIGIN_URL" \
     --entrypoint sh \
     "$GIT_CLIENT_IMAGE" \
     -eu -c '
-        mkdir -p "$HOME"
-        git ls-remote --exit-code "$ORIGIN_URL" HEAD refs/heads/main
+        mkdir -p /tmp/empty-home
+        env -i \
+            HOME=/tmp/empty-home \
+            PATH="$PATH" \
+            ORIGIN_URL="$ORIGIN_URL" \
+            GIT_CONFIG_GLOBAL=/dev/null \
+            GIT_CONFIG_NOSYSTEM=1 \
+            GIT_TERMINAL_PROMPT=0 \
+            GIT_ASKPASS=/bin/false \
+            git -c credential.helper= -c core.askPass=/bin/false \
+                ls-remote --exit-code "$ORIGIN_URL" HEAD refs/heads/main
     '
 
 echo "PASS: 인증 설정이 없는 컨테이너에서 origin의 HEAD와 main을 조회했습니다."

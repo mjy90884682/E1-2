@@ -10,6 +10,8 @@ NETWORK_NAME="$RUN_ID-network"
 PRACTICE_USER=practice
 PRACTICE_PASSWORD='local-practice-password'
 REPOSITORY_NAME=quiz-practice
+PUBLIC_URL="http://gitea:3000/$PRACTICE_USER/$REPOSITORY_NAME.git"
+PUSH_URL="http://$PRACTICE_USER:$PRACTICE_PASSWORD@gitea:3000/$PRACTICE_USER/$REPOSITORY_NAME.git"
 
 cleanup() {
     docker rm --force "$CONTAINER_NAME" >/dev/null 2>&1 || true
@@ -61,26 +63,28 @@ docker exec "$CONTAINER_NAME" curl --fail --silent \
     http://127.0.0.1:3000/api/v1/user/repos >/dev/null
 
 step 3 "현재 저장소를 Gitea 원격 저장소에 게시합니다."
-docker exec "$CONTAINER_NAME" sh -eu -c '
-    git config --global --add safe.directory /source
+docker exec --env "PUSH_URL=$PUSH_URL" "$CONTAINER_NAME" sh -eu -c '
     git config --global --add safe.directory /source/.git
     git clone --quiet /source /tmp/original
     cd /tmp/original
-    git checkout --quiet -B main origin/main
-    git remote set-url origin http://practice:local-practice-password@gitea:3000/practice/quiz-practice.git
+    git checkout --quiet -B main HEAD
+    git remote set-url origin "$PUSH_URL"
     git push --quiet --set-upstream origin main
 '
 
 step 4 "별도 작업 디렉터리에 clone하고 변경을 commit 및 push합니다."
-docker exec "$CONTAINER_NAME" sh -eu -c '
-    git clone --quiet http://gitea:3000/practice/quiz-practice.git /tmp/cloned
+docker exec \
+    --env "PUBLIC_URL=$PUBLIC_URL" \
+    --env "PUSH_URL=$PUSH_URL" \
+    "$CONTAINER_NAME" sh -eu -c '
+    git clone --quiet "$PUBLIC_URL" /tmp/cloned
     cd /tmp/cloned
     git config user.name "Clone Practice"
     git config user.email practice@example.invalid
     printf "clone 작업 디렉터리에서 생성한 변경\n" > clone-pull-proof.txt
     git add clone-pull-proof.txt
     git commit --quiet -m "Docs: clone과 pull 실습 변경 추가"
-    git remote set-url origin http://practice:local-practice-password@gitea:3000/practice/quiz-practice.git
+    git remote set-url origin "$PUSH_URL"
     git push --quiet origin main
 '
 
