@@ -40,6 +40,7 @@ SCRIPTED_DIALOGUE = (
     ("선택: ", "4"),
     ("선택: ", "5"),
 )
+SCENARIO_NAMES = ("add-quiz", "quiz-list", "play-quiz", "best-score", "exit")
 
 
 def run_text(*command: str) -> str:
@@ -61,6 +62,23 @@ def plain_transcript(output: str) -> str:
     """PTY 출력을 diff와 후속 렌더링에 적합한 고정 텍스트로 만든다."""
     normalized = output.replace("\r\n", "\n").replace("\r", "\n")
     return "$ python -m quiz_game\n" + ANSI_ESCAPE.sub("", normalized).rstrip() + "\n"
+
+
+def split_menu_sessions(transcript: str) -> dict[str, str]:
+    """한 PTY 기록을 입력과 결과가 이어진 메뉴 선택 단위로 나눈다."""
+    command, separator, body = transcript.partition("\n")
+    if not separator:
+        raise ValueError("실행 명령 다음에 터미널 출력이 없습니다.")
+    marker = "=== Python 퀴즈 ==="
+    sessions = [marker + part for part in body.split(marker)[1:]]
+    if len(sessions) != len(SCENARIO_NAMES):
+        raise ValueError(
+            f"예상한 메뉴 세션은 {len(SCENARIO_NAMES)}개지만 {len(sessions)}개입니다."
+        )
+    return {
+        name: f"{command}\n\n{session.strip()}\n"
+        for name, session in zip(SCENARIO_NAMES, sessions)
+    }
 
 
 def capture_quiz_session(destination: Path) -> str:
@@ -178,9 +196,22 @@ def main() -> None:
         capture_quiz_session(session_path),
         encoding="utf-8",
     )
+    scenario_paths: list[Path] = []
+    for name, transcript in split_menu_sessions(
+        transcript_path.read_text(encoding="utf-8")
+    ).items():
+        path = OUTPUT_DIR / f"quiz-{name}.txt"
+        path.write_text(transcript, encoding="utf-8")
+        scenario_paths.append(path)
 
     revision = run_text("git", "rev-parse", "HEAD").strip()
-    files = [environment_path, graph_path, session_path, transcript_path]
+    files = [
+        environment_path,
+        graph_path,
+        session_path,
+        transcript_path,
+        *scenario_paths,
+    ]
     manifest = {
         "revision": revision,
         "generator": str(Path(__file__).relative_to(PROJECT_ROOT)),

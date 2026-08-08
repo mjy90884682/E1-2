@@ -1,5 +1,6 @@
 $ git log --oneline --graph --decorate --all
-*   b77b2bb (HEAD -> main, origin/main) Merge branch 'feat/submission-automation'
+* 9d83ae5 (HEAD -> main, origin/main) Feat: 실제 터미널 입력 증거 보존
+*   b77b2bb Merge branch 'feat/submission-automation'
 |\
 | * 3432a59 (feat/submission-automation) Docs: 재현 가능한 제출 스크린샷 추가
 | * b5d5ff6 Build: 태그 기준 제출 검증 절차 추가
