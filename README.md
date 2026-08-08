@@ -74,5 +74,5 @@ python -m unittest discover -s quiz_game/tests -v
 - [처음 보는 사람을 위한 핵심 개념](docs/concepts.md)
 - [설계와 책임 분리](docs/architecture.md)
 - [JSON 데이터 형식](docs/data-format.md)
-- [Docker/Gitea Git 실습](docs/git-practice.md)
+- [실제 GitHub clone/pull 실습](docs/git-practice.md)
 - [재현 가능한 제출 증거](docs/evidence/README.md)

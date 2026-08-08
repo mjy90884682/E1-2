@@ -55,7 +55,7 @@ GameState <─from_data── dict <──json.load─── state.json
 
 ## Docker 검증은 무엇을 보장하는가?
 
-- Gitea 실습은 실제 GitHub를 건드리지 않고 clone·push·pull 흐름을 재현합니다.
+- GitHub 실습은 과제 요구대로 실제 origin에서 clone·push·pull 흐름을 수행합니다.
 - 공개 origin 검증은 호스트 파일을 마운트하지 않은 새 컨테이너에서 수행합니다.
 - `env -i`는 컨테이너 이미지의 환경변수도 비우므로 호스트나 이미지에 있던 인증 정보가 우연히 사용되는 일을 막습니다.
 

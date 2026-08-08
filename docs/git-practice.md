@@ -1,19 +1,25 @@
-# Docker/Gitea Git 실습
+# 실제 GitHub clone/pull 실습
 
-`scripts/git_clone_pull_practice.sh`는 호스트의 Git 인증이나 별도 Gitea 설치 없이 Docker만으로 clone과 pull 흐름을 재현합니다.
+`scripts/github_clone_pull_practice.sh`는 현재 `git remote get-url origin`이 가리키는 실제 GitHub 저장소에서 과제의 clone과 pull 절차를 수행합니다.
+
+이 작업은 `origin/main`에 커밋을 하나 추가하는 외부 변경입니다. 실수로 실행하지 않도록 `--execute`를 반드시 지정해야 합니다.
 
 ```bash
-./scripts/git_clone_pull_practice.sh
+./scripts/github_clone_pull_practice.sh --execute
 ```
+
+실행 전 조건:
+
+- 현재 브랜치가 `main`
+- 작업 트리가 깨끗함
+- 로컬 `main`과 `origin/main`이 동일함
+- 현재 Git 자격 증명으로 origin에 push할 수 있음
 
 실행 순서:
 
-1. 격리된 Docker 네트워크와 임시 Gitea를 시작합니다.
-2. 실습 사용자와 공개 저장소를 생성합니다.
-3. 현재 체크아웃된 `HEAD`를 Gitea의 `main`으로 push합니다.
-4. 별도 디렉터리에 clone하고 파일을 추가해 commit·push합니다.
-5. 기존 디렉터리에서 `git pull --ff-only`을 실행합니다.
-6. 커밋과 파일 내용이 반영됐는지 검사합니다.
-7. 컨테이너와 네트워크를 제거합니다.
+1. 현재 origin을 임시 디렉터리에 clone합니다.
+2. clone한 저장소에서 `github-clone-pull.txt`를 commit·push합니다.
+3. 기존 작업 디렉터리에서 `git pull --ff-only`을 실행합니다.
+4. 커밋 해시와 증거 파일 내용이 같은지 확인합니다.
 
-기본 이미지는 `docker.gitea.com/gitea:1.24.7`이며 `GITEA_IMAGE` 환경 변수로 바꿀 수 있습니다. 실습은 임시 서버에서 수행하므로 실제 GitHub 저장소를 변경하지 않습니다.
+원격 URL을 하드코딩하지 않으므로 제출 저장소가 바뀌어도 현재 origin을 사용합니다. 임시 clone은 종료 시 삭제되지만 증거 커밋과 파일은 실제 GitHub 이력에 남습니다.
