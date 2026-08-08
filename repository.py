@@ -51,6 +51,18 @@ class JsonGameStateRepository:
             file.write("\n")
         temporary_path.replace(self._path)
 
+    def preserve_invalid_file(self) -> Path:
+        backup_path = self._path.with_suffix(self._path.suffix + ".broken")
+        sequence = 1
+        while backup_path.exists():
+            backup_path = self._path.with_suffix(f"{self._path.suffix}.broken.{sequence}")
+            sequence += 1
+        try:
+            self._path.replace(backup_path)
+        except OSError as error:
+            raise StateAccessError("손상된 저장 파일을 보존할 수 없습니다.") from error
+        return backup_path
+
     @staticmethod
     def _decode(data: Any) -> GameState:
         if not isinstance(data, dict) or not isinstance(data.get("quizzes"), list):

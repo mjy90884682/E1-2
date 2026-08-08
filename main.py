@@ -47,7 +47,13 @@ def main() -> None:
     try:
         state = repository.load()
     except InvalidStateError as error:
-        ui.show_message(f"{error} 기본 데이터로 시작합니다.")
+        ui.show_message(str(error))
+        try:
+            backup_path = repository.preserve_invalid_file()
+        except StateAccessError as backup_error:
+            ui.show_message(str(backup_error))
+            return
+        ui.show_message(f"기존 파일을 {backup_path.name}에 보존하고 기본 데이터로 시작합니다.")
         state = default_state()
     except StateAccessError as error:
         ui.show_message(str(error))
