@@ -2,7 +2,6 @@ from pathlib import Path
 
 from console_ui import ConsoleUI
 from game import QuizGame
-from models import default_state
 from repository import InvalidStateError, JsonGameStateRepository, StateAccessError
 
 
@@ -43,7 +42,9 @@ def run_menu(game: QuizGame, ui: ConsoleUI) -> None:
 
 def main() -> None:
     ui = ConsoleUI()
-    repository = JsonGameStateRepository(Path(__file__).with_name("state.json"))
+    project_root = Path(__file__).parent
+    repository = JsonGameStateRepository(project_root / "state.json")
+    default_repository = JsonGameStateRepository(project_root / "data" / "default_state.json")
     try:
         state = repository.load()
     except InvalidStateError as error:
@@ -54,10 +55,20 @@ def main() -> None:
             ui.show_message(str(backup_error))
             return
         ui.show_message(f"기존 파일을 {backup_path.name}에 보존하고 기본 데이터로 시작합니다.")
-        state = default_state()
+        state = None
     except StateAccessError as error:
         ui.show_message(str(error))
         return
+
+    if state is None:
+        try:
+            state = default_repository.load()
+        except (InvalidStateError, StateAccessError) as error:
+            ui.show_message(f"기본 데이터를 불러올 수 없습니다: {error}")
+            return
+        if state is None:
+            ui.show_message("기본 데이터 파일이 없습니다.")
+            return
 
     game = QuizGame(state, repository)
     try:
