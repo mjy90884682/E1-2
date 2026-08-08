@@ -42,11 +42,9 @@ cd "$PRACTICE_ROOT/cloned"
 git config user.name "Codyssey Git Practice"
 git config user.email "practice@example.invalid"
 mkdir -p "$(dirname "$PROOF_PATH")"
-cat > "$PROOF_PATH" <<EOF
-remote=$ORIGIN_URL
-cloned_from=$(git rev-parse HEAD)
-operation=clone -> commit -> push -> pull
-EOF
+CLONED_FROM=$(git rev-parse HEAD)
+printf 'remote=%s\ncloned_from=%s\noperation=clone -> commit -> push -> pull\n' \
+    "$ORIGIN_URL" "$CLONED_FROM" > "$PROOF_PATH"
 git add "$PROOF_PATH"
 git commit --quiet -m "Docs: 실제 GitHub clone pull 실습 증거 갱신"
 PRACTICE_COMMIT=$(git rev-parse HEAD)

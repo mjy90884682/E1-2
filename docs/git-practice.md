@@ -5,7 +5,7 @@
 이 작업은 `origin/main`에 커밋을 하나 추가하는 외부 변경입니다. 실수로 실행하지 않도록 `--execute`를 반드시 지정해야 합니다.
 
 ```bash
-./scripts/github_clone_pull_practice.sh --execute
+sh scripts/github_clone_pull_practice.sh --execute
 ```
 
 실행 전 조건:

@@ -11,7 +11,7 @@
 Python 3.10 이상이 필요하며 외부 라이브러리는 사용하지 않습니다. 다음 스크립트는 프로젝트 루트에 `.venv`를 만들고 로컬 `src` 패키지를 연결합니다.
 
 ```bash
-./scripts/setup_venv.sh
+sh scripts/setup_venv.sh
 . .venv/bin/activate
 python main.py
 ```
@@ -76,3 +76,4 @@ python -m unittest discover -s quiz_game/tests -v
 - [JSON 데이터 형식](docs/data-format.md)
 - [실제 GitHub clone/pull 실습](docs/git-practice.md)
 - [재현 가능한 제출 증거](docs/evidence/README.md)
+- [제출 스크린샷과 관리 정책](docs/submission/README.md)
