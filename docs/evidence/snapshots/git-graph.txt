@@ -1,6 +1,12 @@
 $ git log --oneline --graph --decorate --all
-* af54097 (HEAD -> refactor/remove-redundancy) Refactor: 사용하지 않는 설정과 중복 코드 제거
-*   44b2546 (origin/main, main) Merge branch 'refactor/package-layout-and-docs'
+* 62f1b46 (HEAD -> docs/explain-nonobvious-design) Docs: 초보자를 위한 핵심 개념과 테스트 안내 추가
+* a601864 Docs: 비직관적인 코드와 스크립트 의도 설명
+*   da766b2 (origin/main, main) Merge branch 'refactor/remove-redundancy'
+|\
+| * a235a2a (refactor/remove-redundancy) Refactor: Git 실습과 공개 접근 검증 의미 정리
+| * af54097 Refactor: 사용하지 않는 설정과 중복 코드 제거
+|/
+*   44b2546 Merge branch 'refactor/package-layout-and-docs'
 |\
 | * 7e833b8 (refactor/package-layout-and-docs) Docs: 컴포넌트별 안내와 설계 문서 구성
 | * 7846937 Test: 퀴즈 게임 테스트를 책임별로 분리
