@@ -8,19 +8,6 @@ from models import GameState, Quiz, QuizSession, ScoreRecord
 from repository import InvalidStateError, JsonGameStateRepository
 
 
-class MemoryRepository:
-    def __init__(self) -> None:
-        self.saved_state: GameState | None = None
-
-    def load(self) -> GameState:
-        if self.saved_state is None:
-            raise RuntimeError("저장된 상태가 없습니다.")
-        return self.saved_state
-
-    def save(self, state: GameState) -> None:
-        self.saved_state = state
-
-
 class QuizTest(unittest.TestCase):
     def test_checks_answer(self) -> None:
         quiz = Quiz("정답은?", ("A", "B", "C", "D"), 2)
@@ -56,8 +43,7 @@ class QuizSessionTest(unittest.TestCase):
 class QuizGameTest(unittest.TestCase):
     def test_updates_best_score(self) -> None:
         quiz = Quiz("문제", ("A", "B", "C", "D"), 1)
-        repository = MemoryRepository()
-        game = QuizGame(GameState([quiz]), repository)
+        game = QuizGame(GameState([quiz]))
         session = game.start_quiz()
         assert session is not None
         session.submit_answer(1)
@@ -66,7 +52,7 @@ class QuizGameTest(unittest.TestCase):
 
         self.assertTrue(updated)
         self.assertEqual(result, ScoreRecord(1, 1))
-        self.assertIsNotNone(repository.saved_state)
+        self.assertEqual(game.export_state().best_score, result)
 
 
 class JsonRepositoryTest(unittest.TestCase):
