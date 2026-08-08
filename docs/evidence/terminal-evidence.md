@@ -29,3 +29,9 @@ asciinema play docs/evidence/snapshots/quiz-session.cast
 ```bash
 .venv/bin/python scripts/render_terminal_svgs.py
 ```
+
+SVG를 제출용 PNG로 변환할 때는 저장소의 Dockerfile로 resvg와 Noto CJK 버전을 고정합니다.
+
+```bash
+.venv/bin/python scripts/rasterize_submission_svgs.py
+```

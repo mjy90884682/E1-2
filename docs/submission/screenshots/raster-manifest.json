@@ -1,0 +1,40 @@
+{
+  "generator": "scripts/rasterize_submission_svgs.py",
+  "dockerfile": "scripts/Dockerfile.svg-rasterizer",
+  "image": "quiz-svg-rasterizer:resvg-0.48.1",
+  "image_id": "sha256:4cd712bd0ee40105df938ac495a19f2448859d8844212024e6282fd1f28e1286",
+  "resvg_revision": "68b14c4c3bccdb60344c777406486b54c36ec1a4",
+  "font_package": "fonts-noto-cjk=1:20220127+repack1-1",
+  "pngs": {
+    "docs/submission/screenshots/environment.png": {
+      "source": "docs/submission/screenshots/environment.svg",
+      "source_sha256": "a1c8f08bba245c2dd0129705a9503f011442412f4efdea07bce99e711acfcbdb",
+      "sha256": "98c22fcad173d4a0e6bd0b5cb3bc5be9462a37c06edfcb9c9724621683d0b8f2"
+    },
+    "docs/submission/screenshots/add-quiz.png": {
+      "source": "docs/submission/screenshots/add-quiz.svg",
+      "source_sha256": "b09892a217f4aceae84fb2190b1b254cd6bbfec5562a0e2e497f89a774747257",
+      "sha256": "d79c9b0332c84a695e7c8440e35c935d6cba0dd4b733ac436664eba83ad39461"
+    },
+    "docs/submission/screenshots/quiz-list.png": {
+      "source": "docs/submission/screenshots/quiz-list.svg",
+      "source_sha256": "43809143ea9a1c08bbdee1ba2e297674fa0c509a53a0fafeb034ae7ab9e5249b",
+      "sha256": "235288ce7dbec6bb3a0c1be318eb4f3fc3f36d5c81cf6e19a51ae74185f97134"
+    },
+    "docs/submission/screenshots/play-progress-score.png": {
+      "source": "docs/submission/screenshots/play-progress-score.svg",
+      "source_sha256": "cece36a56227d3f57c82f2904fa79b08f8e3e6ccd0587c1ecc404cb0f9e686db",
+      "sha256": "6c85c913be44278a2e486ef4cb34f3e9aa65dcc7b9045ee98f866e352bc43bcf"
+    },
+    "docs/submission/screenshots/best-score.png": {
+      "source": "docs/submission/screenshots/best-score.svg",
+      "source_sha256": "cfbec01be7a69536614d1c1e271e61c4c71d0666356e566ad602033ad446ab1c",
+      "sha256": "7da888d29c143ee50f2c48949e5368715a99fd722395e12cb11ac4382e2ac4eb"
+    },
+    "docs/submission/screenshots/git-graph.png": {
+      "source": "docs/submission/screenshots/git-graph.svg",
+      "source_sha256": "28f651679c2b239012d523231ca1e47d1d6cd83b92f0627e32260a8bd3cee89a",
+      "sha256": "1c03e115a883999285186f3a539ce3d452ce8170d071e099c83b1a0bd98c573c"
+    }
+  }
+}
