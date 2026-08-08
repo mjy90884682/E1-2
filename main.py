@@ -2,10 +2,15 @@ from pathlib import Path
 
 from console_ui import ConsoleUI
 from game import QuizGame
-from repository import InvalidStateError, JsonGameStateRepository, StateAccessError
+from repository import (
+    GameStateRepository,
+    InvalidStateError,
+    JsonGameStateRepository,
+    StateAccessError,
+)
 
 
-def play_quiz(game: QuizGame, ui: ConsoleUI) -> None:
+def play_quiz(game: QuizGame, ui: ConsoleUI, repository: GameStateRepository) -> None:
     session = game.start_quiz()
     if session is None:
         ui.show_message("등록된 퀴즈가 없습니다.")
@@ -19,18 +24,25 @@ def play_quiz(game: QuizGame, ui: ConsoleUI) -> None:
         ui.show_message("정답입니다!" if session.submit_answer(choice) else "오답입니다.")
 
     result, is_new_best = game.complete_quiz(session)
+    if is_new_best:
+        repository.save(game.export_state())
     ui.show_result(result, is_new_best)
 
 
-def run_menu(game: QuizGame, ui: ConsoleUI) -> None:
+def run_menu(
+    game: QuizGame,
+    ui: ConsoleUI,
+    repository: GameStateRepository,
+) -> None:
     while True:
         ui.show_menu()
         choice = ui.ask_menu_choice()
 
         if choice == 1:
-            play_quiz(game, ui)
+            play_quiz(game, ui, repository)
         elif choice == 2:
             game.add_quiz(ui.ask_new_quiz())
+            repository.save(game.export_state())
             ui.show_message("퀴즈가 저장되었습니다.")
         elif choice == 3:
             ui.show_quizzes(game.list_quizzes())
@@ -70,16 +82,11 @@ def main() -> None:
             ui.show_message("기본 데이터 파일이 없습니다.")
             return
 
-    game = QuizGame(state, repository)
+    game = QuizGame(state)
     try:
-        run_menu(game, ui)
+        run_menu(game, ui, repository)
     except (KeyboardInterrupt, EOFError):
-        ui.show_message("\n입력이 중단되었습니다. 저장 후 종료합니다.")
-    finally:
-        try:
-            game.save()
-        except OSError as error:
-            ui.show_message(f"저장하지 못했습니다: {error}")
+        ui.show_message("\n입력이 중단되어 종료합니다.")
 
 
 if __name__ == "__main__":
