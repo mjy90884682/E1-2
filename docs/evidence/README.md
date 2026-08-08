@@ -1,5 +1,8 @@
 # 재현 가능한 제출 증거
 
+- [TTY 실행 증거](terminal-evidence.md)
+- [비인증 origin 접근 검증](public-origin-access.md)
+
 ## clone과 pull 실습
 
 Docker가 실행 중인 환경에서 다음 명령을 사용합니다.
@@ -15,3 +18,5 @@ Docker가 실행 중인 환경에서 다음 명령을 사용합니다.
 ```bash
 GITEA_IMAGE=docker.gitea.com/gitea:1.24.7 ./scripts/git_clone_pull_practice.sh
 ```
+
+생성된 스냅샷과 `manifest.json`은 `snapshots/`에 있습니다. 매니페스트의 Git revision과 SHA-256을 통해 생성 시점과 파일 무결성을 확인할 수 있습니다.

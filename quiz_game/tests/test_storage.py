@@ -3,75 +3,15 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from game import QuizGame
-from models import GameState, Quiz, QuizSession, ScoreRecord
-from storage import InvalidStateError, StateSaveError, load_state, preserve_invalid_file, save_state
+from quiz_game.models import GameState, Quiz, ScoreRecord
+from quiz_game.storage import (
+    InvalidStateError,
+    StateSaveError,
+    load_state,
+    preserve_invalid_file,
+    save_state,
+)
 
-
-class QuizTest(unittest.TestCase):
-    def test_checks_answer(self) -> None:
-        quiz = Quiz("정답은?", ("A", "B", "C", "D"), 2)
-        self.assertTrue(quiz.check_answer(2))
-        self.assertFalse(quiz.check_answer(1))
-
-    def test_rejects_invalid_quiz(self) -> None:
-        with self.assertRaises(ValueError):
-            Quiz("문제", ("A", "B"), 1)
-
-    def test_rejects_non_string_question_and_boolean_answer(self) -> None:
-        with self.assertRaises(TypeError):
-            Quiz(123, ("A", "B", "C", "D"), 1)  # type: ignore[arg-type]
-        with self.assertRaises(TypeError):
-            Quiz("문제", ("A", "B", "C", "D"), True)
-
-
-class ScoreRecordTest(unittest.TestCase):
-    def test_compares_accuracy_before_correct_count(self) -> None:
-        self.assertTrue(ScoreRecord(1, 1).is_better_than(ScoreRecord(9, 10)))
-
-    def test_prefers_more_correct_answers_when_accuracy_is_equal(self) -> None:
-        self.assertTrue(ScoreRecord(2, 4).is_better_than(ScoreRecord(1, 2)))
-
-
-class QuizSessionTest(unittest.TestCase):
-    def test_finishes_and_calculates_result(self) -> None:
-        quizzes = [
-            Quiz("첫 문제", ("A", "B", "C", "D"), 1),
-            Quiz("둘째 문제", ("A", "B", "C", "D"), 2),
-        ]
-        session = QuizSession(quizzes)
-
-        self.assertTrue(session.submit_answer(1))
-        self.assertFalse(session.submit_answer(3))
-
-        self.assertTrue(session.is_finished)
-        self.assertEqual(session.result(), ScoreRecord(1, 2))
-
-
-class QuizGameTest(unittest.TestCase):
-    def test_updates_best_score(self) -> None:
-        quiz = Quiz("문제", ("A", "B", "C", "D"), 1)
-        game = QuizGame(GameState([quiz]))
-        session = game.start_quiz()
-        assert session is not None
-        session.submit_answer(1)
-
-        result, updated = game.complete_quiz(session)
-
-        self.assertTrue(updated)
-        self.assertEqual(result, ScoreRecord(1, 1))
-        self.assertEqual(game.export_state().best_score, result)
-        self.assertTrue(game.has_unsaved_changes)
-
-    def test_tracks_unsaved_changes_until_marked_as_saved(self) -> None:
-        quiz = Quiz("문제", ("A", "B", "C", "D"), 1)
-        game = QuizGame(GameState())
-
-        self.assertFalse(game.has_unsaved_changes)
-        game.add_quiz(quiz)
-        self.assertTrue(game.has_unsaved_changes)
-        game.mark_saved()
-        self.assertFalse(game.has_unsaved_changes)
 
 class JsonStorageTest(unittest.TestCase):
     def test_reports_file_system_error_while_saving(self) -> None:
@@ -87,11 +27,11 @@ class JsonStorageTest(unittest.TestCase):
 
             self.assertIsNone(load_state(path))
 
-    def test_round_trip(self) -> None:
+    def test_round_trip_preserves_utf8_data(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
             expected = GameState(
-                [Quiz("문제", ("A", "B", "C", "D"), 3)],
+                [Quiz("한글 문제", ("하나", "둘", "셋", "넷"), 3)],
                 ScoreRecord(1, 1),
             )
 
@@ -137,6 +77,7 @@ class JsonStorageTest(unittest.TestCase):
             path = Path(directory) / "state.json"
             path.write_text("broken", encoding="utf-8")
             path.with_suffix(".json.broken").write_text("older", encoding="utf-8")
+
             backup_path = preserve_invalid_file(path)
 
             self.assertEqual(backup_path.name, "state.json.broken.1")

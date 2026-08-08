@@ -1,4 +1,4 @@
-from models import GameState, Quiz, QuizSession, ScoreRecord
+from .models import GameState, Quiz, QuizSession, ScoreRecord
 
 
 class QuizGame:

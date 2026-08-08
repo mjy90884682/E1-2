@@ -1,6 +1,17 @@
 $ git log --oneline --graph --decorate --all
-* 3456acb (feat/reproducible-clone-pull-practice) Feat: Docker 기반 clone pull 실습 자동화
-*   fdd198b (HEAD -> feat/reproducible-terminal-evidence, origin/main, main) Merge branch 'docs/complete-required-readme'
+* 7846937 (HEAD -> refactor/package-layout-and-docs) Test: 퀴즈 게임 테스트를 책임별로 분리
+* 133b778 Refactor: 퀴즈 게임을 src 패키지로 구성
+*---.   2bc1554 (origin/main, main) Merge reproducible Git and submission evidence tooling
+|\ \ \
+| | | * aaf0102 (test/public-origin-access) Test: 비인증 origin 공개 접근 검증
+| |_|/
+|/| |
+| | * 871e3ed (feat/reproducible-terminal-evidence) Feat: 재현 가능한 TTY 제출 증거 생성
+| |/
+|/|
+| * 3456acb (feat/reproducible-clone-pull-practice) Feat: Docker 기반 clone pull 실습 자동화
+|/
+*   fdd198b Merge branch 'docs/complete-required-readme'
 |\
 | * 6098aae (docs/complete-required-readme) Docs: README 필수 항목과 상태 스키마 보완
 |/
