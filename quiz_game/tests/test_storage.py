@@ -83,7 +83,3 @@ class JsonStorageTest(unittest.TestCase):
             self.assertEqual(backup_path.name, "state.json.broken.1")
             self.assertEqual(backup_path.read_text(encoding="utf-8"), "broken")
             self.assertFalse(path.exists())
-
-
-if __name__ == "__main__":
-    unittest.main()

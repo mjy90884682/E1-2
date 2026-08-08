@@ -38,7 +38,3 @@ class GameStateTest(unittest.TestCase):
         restored = GameState.from_data(expected.to_data())
 
         self.assertEqual(restored, expected)
-
-
-if __name__ == "__main__":
-    unittest.main()

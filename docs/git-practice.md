@@ -10,7 +10,7 @@
 
 1. 격리된 Docker 네트워크와 임시 Gitea를 시작합니다.
 2. 실습 사용자와 공개 저장소를 생성합니다.
-3. 현재 `main`을 Gitea에 push합니다.
+3. 현재 체크아웃된 `HEAD`를 Gitea의 `main`으로 push합니다.
 4. 별도 디렉터리에 clone하고 파일을 추가해 commit·push합니다.
 5. 기존 디렉터리에서 `git pull --ff-only`을 실행합니다.
 6. 커밋과 파일 내용이 반영됐는지 검사합니다.

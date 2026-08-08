@@ -1,5 +1,6 @@
 .local/
 __pycache__/
-*.py[cod]
-.pytest_cache/
 .venv/
+state.json
+state.json.tmp
+state.json.broken*
