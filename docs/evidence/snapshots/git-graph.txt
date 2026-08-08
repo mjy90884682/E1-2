@@ -1,0 +1,47 @@
+$ git log --oneline --graph --decorate --all
+* 3456acb (feat/reproducible-clone-pull-practice) Feat: Docker 기반 clone pull 실습 자동화
+*   fdd198b (HEAD -> feat/reproducible-terminal-evidence, origin/main, main) Merge branch 'docs/complete-required-readme'
+|\
+| * 6098aae (docs/complete-required-readme) Docs: README 필수 항목과 상태 스키마 보완
+|/
+*   fde7e33 Merge branch 'fix/retry-unsaved-state'
+|\
+| * 284c4a6 (fix/retry-unsaved-state) Fix: 종료 전 미저장 상태 재시도
+|/
+*   4a25abd Merge branch 'refactor/simplify-persistence'
+|\
+| * 43ca249 (refactor/simplify-persistence) Refactor: JSON 영속성 경계 단순화
+|/
+*   f781c20 Merge branch 'refactor/separate-default-catalog'
+|\
+| * 4bbd4e2 (refactor/separate-default-catalog) Refactor: 기본 퀴즈와 사용자 상태 분리
+|/
+*   c1982be Merge branch 'feat/define-score-policy'
+|\
+| * 5f62168 (feat/define-score-policy) Feat: 최고 점수 비교 정책 명시
+|/
+*   cc00a0a Merge branch 'fix/handle-save-failures'
+|\
+| * 1024538 (fix/handle-save-failures) Fix: 상태 저장 실패를 사용자 흐름에서 처리
+|/
+*   252c3b2 Merge branch 'refactor/centralize-save-policy'
+|\
+| * 42ff4a1 (refactor/centralize-save-policy) Refactor: 상태 저장 시점을 애플리케이션 경계로 이동
+|/
+*   6fffe6c Merge branch 'refactor/externalize-default-state'
+|\
+| * 421cb5d (refactor/externalize-default-state) Refactor: 기본 상태를 JSON 리소스로 분리
+|/
+*   19690a2 Merge branch 'fix/validate-state-schema'
+|\
+| * 37baa17 (fix/validate-state-schema) Fix: JSON 상태 필드 타입 검증 강화
+|/
+*   cae2d45 Merge branch 'fix/preserve-invalid-state'
+|\
+| * 80067ce (fix/preserve-invalid-state) Fix: 손상된 상태 파일을 복구 전에 보존
+|/
+*   79b24d2 Merge branch 'fix/distinguish-load-errors'
+|\
+| * aa01458 (fix/distinguish-load-errors) Fix: 저장 데이터 오류와 접근 오류 구분
+|/
+* 3a70fce Feat: 퀴즈 게임 프로토타입 구현
