@@ -2,6 +2,8 @@ from .models import GameState, Quiz, QuizSession, ScoreRecord
 
 
 class QuizGame:
+    """게임 기능을 제공하고 저장이 필요한 변경을 추적한다."""
+
     def __init__(self, state: GameState) -> None:
         self._state = state
         self._has_unsaved_changes = False
@@ -30,6 +32,8 @@ class QuizGame:
         return self._state.best_score
 
     def export_state(self) -> GameState:
+        """저장 코드가 내부 퀴즈 목록을 직접 수정하지 못하도록 복사해 반환한다."""
+
         return GameState(list(self._state.quizzes), self._state.best_score)
 
     @property

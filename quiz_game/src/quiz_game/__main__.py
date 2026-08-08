@@ -8,17 +8,17 @@ from .storage import (
     StateSaveError,
     load_state,
     preserve_invalid_file,
-    save_state as write_state,
+    save_state,
 )
 
 
-def save_state(
+def persist_game(
     game: QuizGame,
     state_path: Path,
     ui: ConsoleUI,
 ) -> bool:
     try:
-        write_state(state_path, game.export_state())
+        save_state(state_path, game.export_state())
     except StateSaveError as error:
         ui.show_message(f"{error} 변경 내용은 현재 실행 중에만 유지됩니다.")
         return False
@@ -34,13 +34,14 @@ def play_quiz(game: QuizGame, ui: ConsoleUI, state_path: Path) -> None:
 
     while not session.is_finished:
         quiz = session.current_quiz
+        # 반복 조건상 세션이 끝나지 않았으므로 현재 문제는 반드시 존재한다.
         assert quiz is not None
         choice = ui.ask_answer(quiz, session.current_number, session.total)
         ui.show_message("정답입니다!" if session.submit_answer(choice) else "오답입니다.")
 
     result, is_new_best = game.complete_quiz(session)
     if is_new_best:
-        save_state(game, state_path, ui)
+        persist_game(game, state_path, ui)
     ui.show_result(result, is_new_best)
 
 
@@ -57,7 +58,7 @@ def run_menu(
             play_quiz(game, ui, state_path)
         elif choice == 2:
             game.add_quiz(ui.ask_new_quiz())
-            if save_state(game, state_path, ui):
+            if persist_game(game, state_path, ui):
                 ui.show_message("퀴즈가 저장되었습니다.")
         elif choice == 3:
             ui.show_quizzes(game.list_quizzes())
@@ -69,8 +70,10 @@ def run_menu(
 
 def main() -> None:
     ui = ConsoleUI()
-    project_root = Path.cwd()
-    state_path = project_root / "state.json"
+    # 과제 실행 위치(프로젝트 루트)에 사용자 상태를 저장한다.
+    working_directory = Path.cwd()
+    state_path = working_directory / "state.json"
+    # 초기 문제는 설치 위치와 관계없이 패키지에 포함된 파일에서 읽는다.
     initial_state_path = Path(__file__).with_name("data") / "initial_state.json"
     try:
         state = load_state(state_path)
@@ -103,9 +106,10 @@ def main() -> None:
     except (KeyboardInterrupt, EOFError):
         ui.show_message("\n입력이 중단되어 종료합니다.")
     finally:
+        # 앞선 저장이 실패했을 때만 종료 직전에 한 번 더 시도한다.
         if game.has_unsaved_changes:
             ui.show_message("저장하지 못한 변경을 다시 저장합니다.")
-            save_state(game, state_path, ui)
+            persist_game(game, state_path, ui)
 
 
 if __name__ == "__main__":

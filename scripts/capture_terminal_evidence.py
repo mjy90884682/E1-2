@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import codecs
 import errno
 import fcntl
 import hashlib
@@ -55,6 +56,7 @@ def run_text(*command: str) -> str:
 def capture_quiz_session(destination: Path) -> None:
     with tempfile.TemporaryDirectory(prefix="quiz-evidence-") as directory:
         working_directory = Path(directory)
+        # 실제 state.json을 건드리지 않도록 패키지를 임시 디렉터리에 복사한다.
         shutil.copytree(
             PROJECT_ROOT / "quiz_game" / "src" / "quiz_game",
             working_directory / "quiz_game",
@@ -81,6 +83,8 @@ def capture_quiz_session(destination: Path) -> None:
         dialogue = iter(SCRIPTED_DIALOGUE)
         expected_prompt, response = next(dialogue)
         pending_output = ""
+        # PTY는 한글 한 글자의 UTF-8 바이트를 여러 번에 나눠 반환할 수 있다.
+        decoder = codecs.getincrementaldecoder("utf-8")()
 
         header = {
             "version": 2,
@@ -103,10 +107,13 @@ def capture_quiz_session(destination: Path) -> None:
                         raise
                     if not data:
                         break
-                    decoded = data.decode("utf-8")
+                    decoded = decoder.decode(data)
+                    if not decoded:
+                        continue
                     pending_output += decoded
                     event = [round(time.monotonic() - started_at, 6), "o", decoded]
                     output.write(json.dumps(event, ensure_ascii=False) + "\n")
+                    # 프롬프트를 확인한 뒤 답해 실제 사용자 입력 순서를 재현한다.
                     if expected_prompt and expected_prompt in pending_output:
                         os.write(master_fd, f"{response}\n".encode("utf-8"))
                         pending_output = ""

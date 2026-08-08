@@ -1,6 +1,6 @@
 origin=https://github.com/mjy90884682/E1-2.git
 client_image=docker.gitea.com/gitea:1.24.7
 authentication=disabled (clean container, empty environment, no host mounts or prompts)
-44b25467ca38fb4a6bbbf5bba9eb656212fd5b20	HEAD
-44b25467ca38fb4a6bbbf5bba9eb656212fd5b20	refs/heads/main
+da766b21a6e183ed40c1b0cccb74b5e0ecd5f77d	HEAD
+da766b21a6e183ed40c1b0cccb74b5e0ecd5f77d	refs/heads/main
 PASS: 인증 설정이 없는 컨테이너에서 origin의 HEAD와 main을 조회했습니다.

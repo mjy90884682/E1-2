@@ -1,15 +1,15 @@
 {
-  "revision": "af54097bed142163ee51c39afe4d0c9a7a829b04",
+  "revision": "62f1b465408a760a51ac17e7c9276c7cab6a48b8",
   "generator": "scripts/capture_terminal_evidence.py",
   "files": {
     "docs/evidence/snapshots/environment.txt": {
       "sha256": "b55afcdb436641fa09ee38037113dae7987cfaaf26b060c110402410a39931d2"
     },
     "docs/evidence/snapshots/git-graph.txt": {
-      "sha256": "faaf6b4eb29cdd2cb3adcbd0fa3622d8ea725edca3ba892e40d12f786bb0b3dc"
+      "sha256": "6750a9481dfa6e66218048c5ccb147344a8e71e9e081027a9b694dd95243eaa9"
     },
     "docs/evidence/snapshots/quiz-session.cast": {
-      "sha256": "52a9a18b80b2971574b2e6fadae3006a7147f2cb47be0d650b5bb9dc40ba1bca"
+      "sha256": "aa9af86af3efb4cfa9b52b355b741aee9014826c307881e9c2b18b6f8dcaaae1"
     }
   }
 }
