@@ -31,6 +31,12 @@ class QuizTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             Quiz("문제", ("A", "B"), 1)
 
+    def test_rejects_non_string_question_and_boolean_answer(self) -> None:
+        with self.assertRaises(TypeError):
+            Quiz(123, ("A", "B", "C", "D"), 1)  # type: ignore[arg-type]
+        with self.assertRaises(TypeError):
+            Quiz("문제", ("A", "B", "C", "D"), True)
+
 
 class QuizSessionTest(unittest.TestCase):
     def test_finishes_and_calculates_result(self) -> None:
@@ -84,6 +90,28 @@ class JsonRepositoryTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "state.json"
             path.write_text("not json", encoding="utf-8")
+
+            with self.assertRaises(InvalidStateError):
+                JsonGameStateRepository(path).load()
+
+    def test_reports_invalid_field_types(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "state.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "quizzes": [
+                            {
+                                "question": 123,
+                                "choices": ["A", "B", "C", "D"],
+                                "answer": True,
+                            }
+                        ],
+                        "best_score": None,
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             with self.assertRaises(InvalidStateError):
                 JsonGameStateRepository(path).load()

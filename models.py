@@ -11,6 +11,14 @@ class Quiz:
     answer: int
 
     def __post_init__(self) -> None:
+        if not isinstance(self.question, str):
+            raise TypeError("문제는 문자열이어야 합니다.")
+        if not isinstance(self.choices, tuple):
+            raise TypeError("선택지는 튜플이어야 합니다.")
+        if any(not isinstance(choice, str) for choice in self.choices):
+            raise TypeError("모든 선택지는 문자열이어야 합니다.")
+        if isinstance(self.answer, bool) or not isinstance(self.answer, int):
+            raise TypeError("정답 번호는 정수여야 합니다.")
         if not self.question.strip():
             raise ValueError("문제는 비어 있을 수 없습니다.")
         if len(self.choices) != 4:
@@ -30,6 +38,13 @@ class ScoreRecord:
     total: int
 
     def __post_init__(self) -> None:
+        if (
+            isinstance(self.correct, bool)
+            or not isinstance(self.correct, int)
+            or isinstance(self.total, bool)
+            or not isinstance(self.total, int)
+        ):
+            raise TypeError("점수는 정수여야 합니다.")
         if self.total < 0 or not 0 <= self.correct <= self.total:
             raise ValueError("올바르지 않은 점수입니다.")
 
