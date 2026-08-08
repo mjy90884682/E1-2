@@ -15,6 +15,8 @@ class QuizSessionTest(unittest.TestCase):
         self.assertTrue(session.submit_answer(1))
         self.assertFalse(session.submit_answer(3))
 
+        self.assertEqual(session.answered_count, 2)
+        self.assertEqual(session.correct_count, 1)
         self.assertTrue(session.is_finished)
         self.assertEqual(session.result(), ScoreRecord(1, 2))
 

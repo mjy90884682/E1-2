@@ -43,6 +43,9 @@ class ConsoleUI:
         if is_new_best:
             print("새로운 최고 점수입니다!")
 
+    def show_live_score(self, correct: int, answered: int, total: int) -> None:
+        print(f"현재 점수: {correct}/{answered} | 진행: {answered}/{total}")
+
     def show_best_score(self, score: ScoreRecord | None) -> None:
         if score is None:
             print("아직 기록된 점수가 없습니다.")
