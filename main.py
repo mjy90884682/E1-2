@@ -2,6 +2,7 @@ from pathlib import Path
 
 from console_ui import ConsoleUI
 from game import QuizGame
+from models import GameState
 from repository import (
     GameStateRepository,
     InvalidStateError,
@@ -70,7 +71,7 @@ def main() -> None:
     ui = ConsoleUI()
     project_root = Path(__file__).parent
     repository = JsonGameStateRepository(project_root / "state.json")
-    default_repository = JsonGameStateRepository(project_root / "data" / "default_state.json")
+    default_repository = JsonGameStateRepository(project_root / "data" / "default_quizzes.json")
     try:
         state = repository.load()
     except InvalidStateError as error:
@@ -87,16 +88,18 @@ def main() -> None:
         return
 
     if state is None:
-        try:
-            state = default_repository.load()
-        except (InvalidStateError, StateAccessError) as error:
-            ui.show_message(f"기본 데이터를 불러올 수 없습니다: {error}")
-            return
-        if state is None:
-            ui.show_message("기본 데이터 파일이 없습니다.")
-            return
+        state = GameState()
 
-    game = QuizGame(state)
+    try:
+        default_state = default_repository.load()
+    except (InvalidStateError, StateAccessError) as error:
+        ui.show_message(f"기본 데이터를 불러올 수 없습니다: {error}")
+        return
+    if default_state is None:
+        ui.show_message("기본 데이터 파일이 없습니다.")
+        return
+
+    game = QuizGame(state, default_state.quizzes)
     try:
         run_menu(game, ui, repository)
     except (KeyboardInterrupt, EOFError):

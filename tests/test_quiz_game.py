@@ -62,6 +62,16 @@ class QuizGameTest(unittest.TestCase):
         self.assertEqual(result, ScoreRecord(1, 1))
         self.assertEqual(game.export_state().best_score, result)
 
+    def test_does_not_export_default_quizzes_as_user_state(self) -> None:
+        default_quiz = Quiz("기본 문제", ("A", "B", "C", "D"), 1)
+        added_quiz = Quiz("추가 문제", ("A", "B", "C", "D"), 2)
+        game = QuizGame(GameState(), [default_quiz])
+
+        game.add_quiz(added_quiz)
+
+        self.assertEqual(game.list_quizzes(), (default_quiz, added_quiz))
+        self.assertEqual(game.export_state().quizzes, [added_quiz])
+
 
 class JsonRepositoryTest(unittest.TestCase):
     def test_reports_file_system_error_while_saving(self) -> None:
