@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="2312" viewBox="0 0 1280 2312">
+  <rect width="1280" height="2312" fill="#0b1020"/>
+  <text x="50" y="62" fill="#f8fafc" font-family="Noto Sans CJK KR" font-size="30" font-weight="700">Git 브랜치와 병합 이력</text>
+  <text x="50" y="98" fill="#93c5fd" font-family="Noto Sans CJK KR" font-size="16">실제 git log 출력</text>
+  <rect x="50" y="126" width="1180" height="2132" rx="12" fill="#020617" stroke="#334155"/>
+  <text fill="#d1fae5" font-family="Noto Sans CJK KR" font-size="16">
+      <tspan x="72" y="166">$ git log --oneline --graph --decorate --all</tspan>
+      <tspan x="72" y="190">* 9d83ae5 (HEAD -&gt; main, origin/main) Feat: 실제 터미널 입력 증거 보존</tspan>
+      <tspan x="72" y="214">*   b77b2bb Merge branch &#x27;feat/submission-automation&#x27;</tspan>
+      <tspan x="72" y="238">|\</tspan>
+      <tspan x="72" y="262">| * 3432a59 (feat/submission-automation) Docs: 재현 가능한 제출 스크린샷 추가</tspan>
+      <tspan x="72" y="286">| * b5d5ff6 Build: 태그 기준 제출 검증 절차 추가</tspan>
+      <tspan x="72" y="310">| * ff7b710 Refactor: clone pull 실습을 실제 GitHub 대상으로 전환</tspan>
+      <tspan x="72" y="334">|/</tspan>
+      <tspan x="72" y="358">*-.   abdf68d Merge diverged quiz play progress improvements</tspan>
+      <tspan x="72" y="382">|\ \</tspan>
+      <tspan x="72" y="406">| | * 46f9c32 (feat/play-live-score) Feat: 퀴즈 풀이 중 현재 점수 표시</tspan>
+      <tspan x="72" y="430">| |/</tspan>
+      <tspan x="72" y="454">|/|</tspan>
+      <tspan x="72" y="478">| * ddc4473 (feat/play-progress) Feat: 퀴즈 문제별 진행률 표시</tspan>
+      <tspan x="72" y="502">|/</tspan>
+      <tspan x="72" y="526">*   531ab81 Merge branch &#x27;docs/explain-nonobvious-design&#x27;</tspan>
+      <tspan x="72" y="550">|\</tspan>
+      <tspan x="72" y="574">| * 084076e (docs/explain-nonobvious-design) Fix: PTY 한글 출력을 증분 디코딩</tspan>
+      <tspan x="72" y="598">| * 62f1b46 Docs: 초보자를 위한 핵심 개념과 테스트 안내 추가</tspan>
+      <tspan x="72" y="622">| * a601864 Docs: 비직관적인 코드와 스크립트 의도 설명</tspan>
+      <tspan x="72" y="646">|/</tspan>
+      <tspan x="72" y="670">*   da766b2 Merge branch &#x27;refactor/remove-redundancy&#x27;</tspan>
+      <tspan x="72" y="694">|\</tspan>
+      <tspan x="72" y="718">| * a235a2a (refactor/remove-redundancy) Refactor: Git 실습과 공개 접근 검증 의미 정리</tspan>
+      <tspan x="72" y="742">| * af54097 Refactor: 사용하지 않는 설정과 중복 코드 제거</tspan>
+      <tspan x="72" y="766">|/</tspan>
+      <tspan x="72" y="790">*   44b2546 Merge branch &#x27;refactor/package-layout-and-docs&#x27;</tspan>
+      <tspan x="72" y="814">|\</tspan>
+      <tspan x="72" y="838">| * 7e833b8 (refactor/package-layout-and-docs) Docs: 컴포넌트별 안내와 설계 문서 구성</tspan>
+      <tspan x="72" y="862">| * 7846937 Test: 퀴즈 게임 테스트를 책임별로 분리</tspan>
+      <tspan x="72" y="886">| * 133b778 Refactor: 퀴즈 게임을 src 패키지로 구성</tspan>
+      <tspan x="72" y="910">|/</tspan>
+      <tspan x="72" y="934">*---.   2bc1554 Merge reproducible Git and submission evidence tooling</tspan>
+      <tspan x="72" y="958">|\ \ \</tspan>
+      <tspan x="72" y="982">| | | * aaf0102 (test/public-origin-access) Test: 비인증 origin 공개 접근 검증</tspan>
+      <tspan x="72" y="1006">| |_|/</tspan>
+      <tspan x="72" y="1030">|/| |</tspan>
+      <tspan x="72" y="1054">| | * 871e3ed (feat/reproducible-terminal-evidence) Feat: 재현 가능한 TTY 제출 증거 생성</tspan>
+      <tspan x="72" y="1078">| |/</tspan>
+      <tspan x="72" y="1102">|/|</tspan>
+      <tspan x="72" y="1126">| * 3456acb (feat/reproducible-clone-pull-practice) Feat: Docker 기반 clone pull 실습 자동화</tspan>
+      <tspan x="72" y="1150">|/</tspan>
+      <tspan x="72" y="1174">*   fdd198b Merge branch &#x27;docs/complete-required-readme&#x27;</tspan>
+      <tspan x="72" y="1198">|\</tspan>
+      <tspan x="72" y="1222">| * 6098aae (docs/complete-required-readme) Docs: README 필수 항목과 상태 스키마 보완</tspan>
+      <tspan x="72" y="1246">|/</tspan>
+      <tspan x="72" y="1270">*   fde7e33 Merge branch &#x27;fix/retry-unsaved-state&#x27;</tspan>
+      <tspan x="72" y="1294">|\</tspan>
+      <tspan x="72" y="1318">| * 284c4a6 (fix/retry-unsaved-state) Fix: 종료 전 미저장 상태 재시도</tspan>
+      <tspan x="72" y="1342">|/</tspan>
+      <tspan x="72" y="1366">*   4a25abd Merge branch &#x27;refactor/simplify-persistence&#x27;</tspan>
+      <tspan x="72" y="1390">|\</tspan>
+      <tspan x="72" y="1414">| * 43ca249 (refactor/simplify-persistence) Refactor: JSON 영속성 경계 단순화</tspan>
+      <tspan x="72" y="1438">|/</tspan>
+      <tspan x="72" y="1462">*   f781c20 Merge branch &#x27;refactor/separate-default-catalog&#x27;</tspan>
+      <tspan x="72" y="1486">|\</tspan>
+      <tspan x="72" y="1510">| * 4bbd4e2 (refactor/separate-default-catalog) Refactor: 기본 퀴즈와 사용자 상태 분리</tspan>
+      <tspan x="72" y="1534">|/</tspan>
+      <tspan x="72" y="1558">*   c1982be Merge branch &#x27;feat/define-score-policy&#x27;</tspan>
+      <tspan x="72" y="1582">|\</tspan>
+      <tspan x="72" y="1606">| * 5f62168 (feat/define-score-policy) Feat: 최고 점수 비교 정책 명시</tspan>
+      <tspan x="72" y="1630">|/</tspan>
+      <tspan x="72" y="1654">*   cc00a0a Merge branch &#x27;fix/handle-save-failures&#x27;</tspan>
+      <tspan x="72" y="1678">|\</tspan>
+      <tspan x="72" y="1702">| * 1024538 (fix/handle-save-failures) Fix: 상태 저장 실패를 사용자 흐름에서 처리</tspan>
+      <tspan x="72" y="1726">|/</tspan>
+      <tspan x="72" y="1750">*   252c3b2 Merge branch &#x27;refactor/centralize-save-policy&#x27;</tspan>
+      <tspan x="72" y="1774">|\</tspan>
+      <tspan x="72" y="1798">| * 42ff4a1 (refactor/centralize-save-policy) Refactor: 상태 저장 시점을 애플리케이션 경계로 이동</tspan>
+      <tspan x="72" y="1822">|/</tspan>
+      <tspan x="72" y="1846">*   6fffe6c Merge branch &#x27;refactor/externalize-default-state&#x27;</tspan>
+      <tspan x="72" y="1870">|\</tspan>
+      <tspan x="72" y="1894">| * 421cb5d (refactor/externalize-default-state) Refactor: 기본 상태를 JSON 리소스로 분리</tspan>
+      <tspan x="72" y="1918">|/</tspan>
+      <tspan x="72" y="1942">*   19690a2 Merge branch &#x27;fix/validate-state-schema&#x27;</tspan>
+      <tspan x="72" y="1966">|\</tspan>
+      <tspan x="72" y="1990">| * 37baa17 (fix/validate-state-schema) Fix: JSON 상태 필드 타입 검증 강화</tspan>
+      <tspan x="72" y="2014">|/</tspan>
+      <tspan x="72" y="2038">*   cae2d45 Merge branch &#x27;fix/preserve-invalid-state&#x27;</tspan>
+      <tspan x="72" y="2062">|\</tspan>
+      <tspan x="72" y="2086">| * 80067ce (fix/preserve-invalid-state) Fix: 손상된 상태 파일을 복구 전에 보존</tspan>
+      <tspan x="72" y="2110">|/</tspan>
+      <tspan x="72" y="2134">*   79b24d2 Merge branch &#x27;fix/distinguish-load-errors&#x27;</tspan>
+      <tspan x="72" y="2158">|\</tspan>
+      <tspan x="72" y="2182">| * aa01458 (fix/distinguish-load-errors) Fix: 저장 데이터 오류와 접근 오류 구분</tspan>
+      <tspan x="72" y="2206">|/</tspan>
+      <tspan x="72" y="2230">* 3a70fce Feat: 퀴즈 게임 프로토타입 구현</tspan>
+  </text>
+  <text x="50" y="2292" fill="#94a3b8" font-family="Noto Sans CJK KR" font-size="13">실제 PTY 출력에서 생성 · 원본 해시는 manifest.json에 기록</text>
+</svg>

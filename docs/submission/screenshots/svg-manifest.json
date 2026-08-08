@@ -1,0 +1,36 @@
+{
+  "generator": "scripts/render_terminal_svgs.py",
+  "font_family": "Noto Sans CJK KR",
+  "svgs": {
+    "docs/submission/screenshots/environment.svg": {
+      "source": "docs/evidence/snapshots/environment.txt",
+      "source_sha256": "b55afcdb436641fa09ee38037113dae7987cfaaf26b060c110402410a39931d2",
+      "sha256": "a1c8f08bba245c2dd0129705a9503f011442412f4efdea07bce99e711acfcbdb"
+    },
+    "docs/submission/screenshots/add-quiz.svg": {
+      "source": "docs/evidence/snapshots/quiz-add-quiz.txt",
+      "source_sha256": "272a5826981c7327eb583bc92048c7827b9f430754ea5441f4282df7903ecda1",
+      "sha256": "b09892a217f4aceae84fb2190b1b254cd6bbfec5562a0e2e497f89a774747257"
+    },
+    "docs/submission/screenshots/quiz-list.svg": {
+      "source": "docs/evidence/snapshots/quiz-quiz-list.txt",
+      "source_sha256": "de0015298f2a5dc302d29952d94c4cc5d69e09ff2b048480af4a22a828986069",
+      "sha256": "43809143ea9a1c08bbdee1ba2e297674fa0c509a53a0fafeb034ae7ab9e5249b"
+    },
+    "docs/submission/screenshots/play-progress-score.svg": {
+      "source": "docs/evidence/snapshots/quiz-play-quiz.txt",
+      "source_sha256": "e1e8e7aefd47b4ffa3c2638ea9af8b00a3b3958680a0096437bade4989846018",
+      "sha256": "cece36a56227d3f57c82f2904fa79b08f8e3e6ccd0587c1ecc404cb0f9e686db"
+    },
+    "docs/submission/screenshots/best-score.svg": {
+      "source": "docs/evidence/snapshots/quiz-best-score.txt",
+      "source_sha256": "6b90efb5866c6a1980f11ebf402a738bb76dc00fb547802b50bb7758d4778824",
+      "sha256": "cfbec01be7a69536614d1c1e271e61c4c71d0666356e566ad602033ad446ab1c"
+    },
+    "docs/submission/screenshots/git-graph.svg": {
+      "source": "docs/evidence/snapshots/git-graph.txt",
+      "source_sha256": "4ee57d3a0ba56d37c05d76a03998baa024288914710d64129ff50c2f864a8d28",
+      "sha256": "28f651679c2b239012d523231ca1e47d1d6cd83b92f0627e32260a8bd3cee89a"
+    }
+  }
+}

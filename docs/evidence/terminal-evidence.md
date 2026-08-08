@@ -23,3 +23,9 @@ GUI가 필요하지 않은 제출 증거는 다음 명령으로 다시 생성할
 ```bash
 asciinema play docs/evidence/snapshots/quiz-session.cast
 ```
+
+브라우저 없이 제출용 SVG를 생성하려면 다음 명령을 실행합니다. SVG는 원본 텍스트와 자신의 SHA-256을 별도 매니페스트에 기록합니다.
+
+```bash
+.venv/bin/python scripts/render_terminal_svgs.py
+```
