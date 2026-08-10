@@ -1,6 +1,6 @@
 {
-  "revision": "c8121694f98349fc6bf33ac22009250f75aa5737",
-  "revision_input": "HEAD",
+  "revision": "75e33c3074dda981e44ef75e5d8aafa014809003",
+  "revision_input": "submission-v1.0",
   "generator": "scripts/rasterize_submission_svgs.py",
   "dockerfile": "scripts/Dockerfile.svg-rasterizer",
   "image": "quiz-svg-rasterizer:resvg-0.48.1",
@@ -9,8 +9,8 @@
   "pngs": {
     "docs/submission/screenshots/environment.png": {
       "source": "docs/submission/screenshots/environment.svg",
-      "source_sha256": "684e8c74d107dc9f652985b1873099e27c9c1ccfbff5ffd1d2d09e982848224e",
-      "sha256": "916a46f870c8f21b76aee1c621013ddafb388caac0517b68ac61f672dea6a660"
+      "source_sha256": "461c3473865b120065046444e8f714c543708d35cad2eb71fffa7c733b35cb79",
+      "sha256": "9104b784971eb4cc92cd706ba3e0c047f630975f79e6a0e75d08f7aa52fbf88e"
     },
     "docs/submission/screenshots/add-quiz.png": {
       "source": "docs/submission/screenshots/add-quiz.svg",
@@ -34,8 +34,8 @@
     },
     "docs/submission/screenshots/git-graph.png": {
       "source": "docs/submission/screenshots/git-graph.svg",
-      "source_sha256": "d812d2b402b030d4a4e43e20f7bf0e039768d5e4e54040830fa726b66d554137",
-      "sha256": "875fec68e04deedb490cc4a6c30180d0059bbe79e36ed40b79358d409bb55012"
+      "source_sha256": "3879b90329974137c46672589917b969abf4d07120fbf2457fab3200b4c6f0a4",
+      "sha256": "b5d4508dfe2f02721aec0a3c5bcaf4b2afa407fd3a65cd5bf0d1b5909197e961"
     }
   }
 }

@@ -1,16 +1,16 @@
 {
-  "revision": "c8121694f98349fc6bf33ac22009250f75aa5737",
-  "revision_input": "HEAD",
+  "revision": "75e33c3074dda981e44ef75e5d8aafa014809003",
+  "revision_input": "submission-v1.0",
   "generator": "scripts/capture_terminal_evidence.py",
   "files": {
     "docs/evidence/snapshots/environment.txt": {
-      "sha256": "b55afcdb436641fa09ee38037113dae7987cfaaf26b060c110402410a39931d2"
+      "sha256": "50319495b36b997b5d96d7a8068e23e05ac6922afe551376651c1ca871a01292"
     },
     "docs/evidence/snapshots/git-graph.txt": {
-      "sha256": "f01f3e2e2ab311e432bebc8aabe2c53d6b65cc193f66debfa56c799b03e94efa"
+      "sha256": "1e34496ef7865e47d1c84bc7047d2f7ee380f85c857cec7b42276ec50a23337c"
     },
     "docs/evidence/snapshots/quiz-session.cast": {
-      "sha256": "a0f6de4b841d4ff35cfc3972edce4c26b7237c405a110c89a8ef16102e3b9b37"
+      "sha256": "692529e0b19142cda1b22ac1936dc00825859a6adea770c8206346b572c5ec15"
     },
     "docs/evidence/snapshots/quiz-session.txt": {
       "sha256": "7ef9541b8a205653a8542066fc7194884cbec6957146cb94f2b91cc71dc3d8fa"

@@ -1,8 +1,8 @@
 $ python --version
-Python 3.14.4
+Python 3.12.13
 
 $ git --version
-git version 2.53.0
+git version 2.54.0
 
 $ uname -a
-Linux remote-main-4 7.0.0-22-generic #22-Ubuntu SMP PREEMPT_DYNAMIC Mon May 25 15:54:34 UTC 2026 x86_64 GNU/Linux
+Darwin cx2r6s4.codyssey.kr 24.6.0 Darwin Kernel Version 24.6.0: Fri Feb 27 19:33:24 PST 2026; root:xnu-11417.140.69.709.8~1/RELEASE_X86_64 x86_64

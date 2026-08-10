@@ -1,13 +1,13 @@
 {
-  "revision": "c8121694f98349fc6bf33ac22009250f75aa5737",
-  "revision_input": "HEAD",
+  "revision": "75e33c3074dda981e44ef75e5d8aafa014809003",
+  "revision_input": "submission-v1.0",
   "generator": "scripts/render_terminal_svgs.py",
   "font_family": "Noto Sans CJK KR",
   "svgs": {
     "docs/submission/screenshots/environment.svg": {
       "source": "docs/evidence/snapshots/environment.txt",
-      "source_sha256": "b55afcdb436641fa09ee38037113dae7987cfaaf26b060c110402410a39931d2",
-      "sha256": "684e8c74d107dc9f652985b1873099e27c9c1ccfbff5ffd1d2d09e982848224e"
+      "source_sha256": "50319495b36b997b5d96d7a8068e23e05ac6922afe551376651c1ca871a01292",
+      "sha256": "461c3473865b120065046444e8f714c543708d35cad2eb71fffa7c733b35cb79"
     },
     "docs/submission/screenshots/add-quiz.svg": {
       "source": "docs/evidence/snapshots/quiz-add-quiz.txt",
@@ -31,8 +31,8 @@
     },
     "docs/submission/screenshots/git-graph.svg": {
       "source": "docs/evidence/snapshots/git-graph.txt",
-      "source_sha256": "f01f3e2e2ab311e432bebc8aabe2c53d6b65cc193f66debfa56c799b03e94efa",
-      "sha256": "d812d2b402b030d4a4e43e20f7bf0e039768d5e4e54040830fa726b66d554137"
+      "source_sha256": "1e34496ef7865e47d1c84bc7047d2f7ee380f85c857cec7b42276ec50a23337c",
+      "sha256": "3879b90329974137c46672589917b969abf4d07120fbf2457fab3200b4c6f0a4"
     }
   }
 }
